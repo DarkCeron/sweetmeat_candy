@@ -16,7 +16,8 @@ import java.util.LinkedList;
  * @author USUARIO
  */
 public class Test {
-
+//comentario
+    String a = "a";
     private static String s = "choco";
     private static String name = "ho";
     private static int tope = 0;
