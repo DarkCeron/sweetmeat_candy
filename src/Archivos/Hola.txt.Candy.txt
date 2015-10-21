@@ -1,0 +1,13 @@
+yolo
+esto no se borra 
+choco a;
+choco a;
+bubulubu x;
+ Paleta.payaso("Dame un numero");
+leer.Bubulubu()=x;
+
+Paleta.payaso("El numero leido es: "+x);
+
+esto tampoco se borrA 
+
+fin

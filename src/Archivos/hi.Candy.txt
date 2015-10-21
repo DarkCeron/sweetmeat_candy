@@ -1,0 +1,24 @@
+yolo
+esto no se borra 
+choco a;
+choco $#%%&;
+bombon otra;
+bombon o;
+bubulubu x;
+choco bombon;
+caramelo e;
+bombon a;
+a = "hola amigo";
+e = 'o';
+o = e;
+otra = vainilla;
+o = otra;
+o = Postre;
+Paleta.payaso("Hola como estas");
+Paleta.payaso(a);
+x = 54;
+
+
+esto tampoco se borrA 
+
+fin
