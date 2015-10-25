@@ -17,7 +17,7 @@ public class DesCicloMain {
     private Variables varia;
     Operaciones ope = new Operaciones();
     LinkedList llist;
-    String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate(){", "paletita"};  
+    String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate", "paletita"};  
     
         public boolean EvaluaBloques(String obtenLinea, int linea, LinkedList lli){
         llist = lli;
@@ -36,8 +36,8 @@ public class DesCicloMain {
         else if(Main(obtenLinea, linea)){
             bandera  = true;
         }
-        else if(!obtenLinea.equals("")){
-            System.err.println("Error de sintaxis '"+obtenLinea+"'. ERROR en la linea "+linea);
+        
+        else{
             bandera = true;
         }
         //varia = null;
@@ -45,13 +45,17 @@ public class DesCicloMain {
     }
     
     public boolean Desicion(String obtenLinea, int linea){
-        
-        
+        String aux[] = obtenLinea.split("\\(");
+        if(aux[0].equals(supm[0])){
         if(ope.operacLogic(obtenLinea, linea, supm[0], llist)){
             bandera = false;
         }
         else {
             bandera = true;
+        }
+        }
+        else{
+            bandera = false;
         }
         
         return bandera;
@@ -59,37 +63,73 @@ public class DesCicloMain {
     
     public boolean Main(String obtenLinea, int linea){
         
-        String separa[] = obtenLinea.split("\\(");
-        if(obtenLinea.matches("Dulce de chocolate[\\(][a-zA-Z0-9]?[\\)]")){
+        String aux[] = obtenLinea.split("\\(");
+        if(aux[0].equals(supm[3])){
+        if(ope.operacLogic(obtenLinea, linea, supm[3], llist)){
             bandera = false;
         }
+        else {
+            bandera = true;
+        }
+        }
+        else{
+            bandera = false;
+        }
+        
         return bandera;
     }
     
     public boolean DesisionSino(String obtenLinea, int linea){
         
-        String separa[] = obtenLinea.split("\\(");
-        if(obtenLinea.matches("MedioPastelito[\\(][a-zA-Z0-9]?[\\)]")){
+        String aux[] = obtenLinea.split("\\(");
+        if(aux[0].equals(supm[1])){
+        if(ope.operacLogic(obtenLinea, linea, supm[1], llist)){
             bandera = false;
         }
+        else {
+            bandera = true;
+        }
+        }
+        else{
+            bandera = false;
+        }
+        
         return bandera;
     }
     
     public boolean Impresion(String obtenLinea, int linea){
         
-        String separa[] = obtenLinea.split("\\(");
-        if(obtenLinea.matches("Paleta.Payaso[\\(][a-zA-Z0-9]?[\\)]")){
+       String aux[] = obtenLinea.split("\\(");
+        if(aux[0].equals(supm[2])){
+        if(ope.operacLogic(obtenLinea, linea, supm[2], llist)){
             bandera = false;
         }
+        else {
+            bandera = true;
+        }
+        }
+        else{
+            bandera = false;
+        }
+        
         return bandera;
     }
     
     public boolean Ciclo(String obtenLinea, int linea){
         
-        String separa[] = obtenLinea.split("\\(");
-        if(obtenLinea.matches("paletita[\\(][a-zA-Z0-9]?[\\)]")){
+        String aux[] = obtenLinea.split("\\(");
+        if(aux[0].equals(supm[4])){
+        if(ope.operacLogic(obtenLinea, linea, supm[4], llist)){
             bandera = false;
         }
+        else {
+            bandera = true;
+        }
+        }
+        else{
+            bandera = false;
+        }
+        
         return bandera;
     }
     

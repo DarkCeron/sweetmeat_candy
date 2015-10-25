@@ -34,8 +34,8 @@ public class logica{
       pes.put(pes.size(),"R1");
       pes.put(pes.size(),"E");
       pes.put(pes.size(),"R4");
-      pes.put(pes.size(),"E");
-      pes.put(pes.size(),"E");
+      pes.put(pes.size(),"R5");
+      pes.put(pes.size(),"R7");
       pes.put(pes.size(),"R8");
       pes.put(pes.size(),"R11");//
       return pes;

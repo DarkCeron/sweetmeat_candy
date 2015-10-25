@@ -31,9 +31,9 @@ public class Test {
 
         analizador_v1 av1 = new analizador_v1();
         av1.setName(name);
-        av1.setArchivo("/home/ceron/Escritorio/Arduino/Compiladores/src/Archivos/Programa.Candy");
-        String direccion1 = "/home/ceron/Escritorio/Arduino/Compiladores/src/Archivos/ho.Candy";
-        String direccion2 = "/home/ceron/Escritorio/Arduino/Compiladores/src/Archivos/CandyReservID.Candy.txt";
+        av1.setArchivo("/home/ceron/Documentos/sweetmeat_candy/src/Archivos/Programa.Candy");
+        String direccion1 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/ho.Candy";
+        String direccion2 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/CandyReservID.Candy.txt";
         prin.ObtieneLineas(direccion1, direccion2);
         Variables var = new Variables();
         ImpTabSimbolos();

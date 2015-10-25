@@ -19,7 +19,7 @@ import java.util.Map;
 public class Operaciones {
     public int c = 0;
     public boolean aceptacion = false, romp = false, divE = false;
-    public String cadena = "", ID = "";
+    public String cadena = "", ID = "", desp = "", aux ;
     public int x = 0;
     public Map<Integer, Integer> pila = new HashMap<Integer, Integer>();
     public Map<Integer, String> pilaValor = new HashMap<Integer, String>();
@@ -36,7 +36,8 @@ public class Operaciones {
         Map<Integer, String> tab = new HashMap<Integer, String>();
         do{
         hm = obj;
-            String desp = hm.get(pila.get(c));
+            desp = hm.get(pila.get(c))+"";
+            
             if(desp.startsWith("S")){
                cadena=desp.replace("S", "");
                pila.put(pila.size(), Integer.parseInt(cadena));
@@ -61,7 +62,7 @@ public class Operaciones {
                    }
                    
                    else{
-                        opLog();
+                        opLog(linea);
                    }
                }
                //tab.clear();
@@ -113,21 +114,12 @@ public class Operaciones {
                        pila.put(pila.size(), pilaAux);
                    }
                }
-//               else if(sep[0].equals("F")){
-//                   if(LoM == 0){
-//                   tab = tl.F();
-//                   }
-//                   if(tab.get(pila.get(pila.size()-1)) != "E"){
-//                       pilaAux = Integer.parseInt(tab.get(pila.get(pila.size()-1)));
-//                       pila.put(pila.size(), pilaAux);
-//                   }
-//               }
             }
             else if(desp.equals("ACEPT")){
                 if(LoM == 1){
                     System.out.println("La cadena matematica ha sido aceptada.  Valor: "+pilaValor.get(0));
                     if(divE == false){
-                        varia.ModificaValIdentificador(ID, pilaValor.get(0));
+                        varia.ModificaValIdentificador(aux, pilaValor.get(0));
                     }
                 }
                 else{
@@ -141,9 +133,7 @@ public class Operaciones {
                 salR = false;
                 romp = true;
             }
-            hm = null;
-            tab = null;
-            tm = null;
+            
             c = pila.size()-1;
         }while(salR);
         if(!signo.equals("(") && !signo.equals(")")){
@@ -160,6 +150,7 @@ public class Operaciones {
                     System.err.println("Error, el valor "+signo+" No es de tipo entero");
                     romp= true;
                 }
+                ID = "";
             }
             else{
                 
@@ -172,6 +163,10 @@ public class Operaciones {
     /*AQUI COMIENZAN LOS METODOS PARA ANALIZAR UNA OPERACION MATEMATICA*/
     //Metodo del algoritmo
     public boolean algoritmoAceptacion(String obtenLinea, int linea){
+        romp = false;
+        pila = new HashMap<Integer, Integer>();
+        x = 0;
+        c = 0;
         pila.put(pila.size(), 0);
         String oldtable = obtenLinea.replaceAll("  ", " ");
         String [] tabla = oldtable.split(" ");
@@ -213,7 +208,9 @@ public class Operaciones {
           }
             x++;
         }
-        romp = false;
+       // romp = false;
+        pila.clear();
+        pilaValor.clear();
         return aceptacion;
     }
     
@@ -226,12 +223,14 @@ public class Operaciones {
         String cad = obtenLinea.replaceAll("\\s", "");
         String[] cadnew = cad.split("=");
         String[] cadl = cadnew[1].split(";");
+        aux = cadnew[0]+"";
         if(cadl[0].matches("[[\\(|\\)]*[\\d]*[*|\\-|+|/]{1}[\\d]*[\\(|\\)]]+")||
            cadl[0].matches("[[\\(|\\)]*[\\w]*[*|\\-|+|/]{1}[\\w]*[\\(|\\)]]+")){
 
             if(aceptarOperacionMate(cadl[0], linea)){
                 if(algoritmoAceptacion(cadena, linea)){
                     aceptacion = true;
+                    cadena = "";
                 }
                 else aceptacion = false;
             }
@@ -241,7 +240,7 @@ public class Operaciones {
             aceptacion = false;
         }
         }
-        pila = null;
+        //pila = null;
         return aceptacion;
     }
     
@@ -299,7 +298,7 @@ public class Operaciones {
                     break;
                 }
                 case '/':{
-                  if(Integer.parseInt(pilaValor.get(pilaValor.size()-1)) != 0 && Integer.parseInt(pilaValor.get(pilaValor.size()-3)) != 0){
+                  if(Integer.parseInt(pilaValor.get(pilaValor.size()-3)) != 0){
                   auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) / Integer.parseInt(pilaValor.get(pilaValor.size()-3));
                   elimYAgregaValor(auxiliar.toString());
                   }
@@ -326,6 +325,10 @@ public class Operaciones {
     /*AQUI INICIA METODOS PARA REALIZAR UNA OPERACION LOGICA*/
 //Metodo del algoritmo
     public boolean algoritmoAceptacionlogica(String obtenLinea, int linea){
+        romp = false;
+        pila = new HashMap<Integer, Integer>();
+        x = 0;
+        c = 0;
         pila.put(pila.size(), 0);
         String [] tabla = obtenLinea.split(" ");
         while(x < tabla.length){
@@ -374,7 +377,9 @@ public class Operaciones {
             }         
             x++;
         }
-        romp = false;
+//        romp = false;
+        pila.clear();
+        pilaValor.clear();
         return aceptacion;
     }
     
@@ -393,6 +398,7 @@ public class Operaciones {
             if(aceptarOperacionLogic(analizar[0], linea)){
                 if(algoritmoAceptacionlogica(cadena, linea)){
                     aceptacion = false;
+                    cadena = "";
                 }
             }
         }
@@ -452,7 +458,7 @@ public class Operaciones {
         return aceptacion;
     }
     
-    public void opLog(){
+    public void opLog(int linea){
         boolean  apoyoA = false, apoyoB = false;
        if(pilaValor.get(pilaValor.size() - 1).matches("[0-9]+") && pilaValor.get(pilaValor.size()-3).matches("[0-9]+")){
             if(pilaValor.get(pilaValor.size() - 2).equals(">")){
@@ -524,8 +530,7 @@ public class Operaciones {
            }
        }
        else{
-           System.err.println("Error, imposible comparar operacion");
-           pilaValor.put(0, "null");
+           System.err.println("Error, imposible comparar operacion. Linea: "+linea);
        }
     }
     /*AQUI TERMINAN LOS METODOS PARA REALIZAR UNA OPERACION LOGICA*/
