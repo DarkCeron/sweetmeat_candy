@@ -7,9 +7,7 @@ package AnalisisLexico;
 
 import java.io.*;
 import java.util.LinkedList;
-import java.util.StringTokenizer;
-import jdk.nashorn.internal.parser.Token;
-import sun.print.resources.serviceui;
+
 
 /**
  *

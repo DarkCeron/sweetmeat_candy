@@ -38,7 +38,12 @@ public class analizador_v1 extends AllComparations{
         BufferedReader lect = new BufferedReader(file_nf);
         
         //Objeto para guardar el archivo
-        f_write = new File("/home/ceron/Documentos/sweetmeat_candy/src/Archivos/"+this.name+".Candy");
+        /*Direccion URL para Windows*/
+        f_write = new File("C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\"+this.name+".Candy");
+        /*FIN*/
+        /*Direccion URL para Ubuntu*/
+        //f_write = new File("/home/ceron/Documentos/sweetmeat_candy/src/Archivos/"+this.name+".Candy");
+        /*FIN*/
         
        try{
            //Objetos para escribir en el nuevo documento

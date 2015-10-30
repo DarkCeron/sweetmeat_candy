@@ -28,12 +28,19 @@ public class Test {
     public static ValidaPalReserv valpalreserv = new ValidaPalReserv();
 
     public static void main(String[] args) throws IOException, Exception {
-
         analizador_v1 av1 = new analizador_v1();
         av1.setName(name);
-        av1.setArchivo("/home/ceron/Documentos/sweetmeat_candy/src/Archivos/Programa.Candy");
-        String direccion1 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/ho.Candy";
-        String direccion2 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/CandyReservID.Candy.txt";
+        /*Direcciones URL para Windows*/
+        av1.setArchivo("C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\Programa.Candy");
+        String direccion1 = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\ho.Candy";
+        String direccion2 = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\CandyReservID.Candy.txt";
+        /*Direcciones URL para Windows*/
+        
+        /*Direcciones URL para Ubuntu*/
+//        av1.setArchivo("/home/ceron/Documentos/sweetmeat_candy/src/Archivos/Programa.Candy");
+//        String direccion1 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/ho.Candy";
+//        String direccion2 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/CandyReservID.Candy.txt";
+        /*Direcciones URL para Ubuntu*/
         prin.ObtieneLineas(direccion1, direccion2);
         Variables var = new Variables();
         ImpTabSimbolos();

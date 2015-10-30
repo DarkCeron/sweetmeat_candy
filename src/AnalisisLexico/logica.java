@@ -489,7 +489,7 @@ public class logica{
       a.put(a.size(),"E");
       a.put(a.size(),"E");
       a.put(a.size(),"E");
-      a.put(a.size(),"8");
+      a.put(a.size(),"18");
       a.put(a.size(),"E");
       a.put(a.size(),"E");
       a.put(a.size(),"E");

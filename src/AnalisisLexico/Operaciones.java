@@ -37,7 +37,6 @@ public class Operaciones {
         do{
         hm = obj;
             desp = hm.get(pila.get(c))+"";
-            
             if(desp.startsWith("S")){
                cadena=desp.replace("S", "");
                pila.put(pila.size(), Integer.parseInt(cadena));
@@ -56,7 +55,7 @@ public class Operaciones {
                    this.pila.remove(pila.size()-1);
                }
                //Realiza operación
-               if(pililla == 3 || pililla == 2){
+               if(pililla == 3 && pilaValor.size() >= 2){
                    if(LoM == 1){
                         RealizaOperacion();
                    }
@@ -123,7 +122,11 @@ public class Operaciones {
                     }
                 }
                 else{
+                    if(divE == false){
                     System.out.println("La cadena logica ha sido aceptada.  Valor: "+pilaValor.get(0));
+                    }
+                    else
+                        System.out.println("La cadena logica ha sido aceptada.");
                 }
                 
                 salR = false;
@@ -387,15 +390,21 @@ public class Operaciones {
     public boolean operacLogic(String obtenLinea, int linea, String palres, LinkedList llist){
         this.llist = llist;
         varia.setIdentificadores(llist);
-        String separa[] = obtenLinea.split("\\(");
+        String separa[] = obtenLinea.split("\\("), valor = "";
         
         if(separa[0].equals(palres) && 
           (separa[0].matches("[[\\(|\\)]*[\\d]*[&|[\\|]|==|!=|>|<|^|vainilla|frutsi]{1}[\\d]*[\\(|\\)]]+")||
            separa[0].matches("[[\\(|\\)]*[\\w]*[&|[\\|]|==|!=|>|<|^|vainilla|frutsi]{1}[\\w]*[\\(|\\)]]+"))){
+                    valor = obtenLinea.replaceAll(palres, "") + "";
+                if(obtenLinea.contains("{")){
+                    valor = valor.replaceAll("\\{", "") + "";
+                }
+                if(obtenLinea.contains("}")){
+                    valor = valor.replaceAll("\\}", "") + "";
+                }
+            String cad = valor.replaceAll("\\s", "");
             
-            String cad = separa[1].replaceAll("\\s", "");
-            String[]  analizar = cad.split("\\)");
-            if(aceptarOperacionLogic(analizar[0], linea)){
+            if(aceptarOperacionLogic(cad, linea)){
                 if(algoritmoAceptacionlogica(cadena, linea)){
                     aceptacion = false;
                     cadena = "";
@@ -449,7 +458,8 @@ public class Operaciones {
     public boolean signosLogicos(String cadena, int linea){
         if(cadena.charAt(linea) == '&' || cadena.charAt(linea) == '|'|| 
            cadena.charAt(linea) == '>' || cadena.charAt(linea) == '<'||
-           cadena.charAt(linea) == '¬' || cadena.charAt(linea) == '%'){
+           cadena.charAt(linea) == '¬' || cadena.charAt(linea) == '%'||
+           cadena.charAt(linea) == '(' || cadena.charAt(linea) == ')'){
             aceptacion = true;
         }
         else{
@@ -460,7 +470,19 @@ public class Operaciones {
     
     public void opLog(int linea){
         boolean  apoyoA = false, apoyoB = false;
-       if(pilaValor.get(pilaValor.size() - 1).matches("[0-9]+") && pilaValor.get(pilaValor.size()-3).matches("[0-9]+")){
+        if(pilaValor.get(pilaValor.size()-1).matches("(vainilla|frutsi)") && pilaValor.get(pilaValor.size() - 2).contains("^")){
+               if(pilaValor.get(pilaValor.size()-1).equals("vainilla"))
+                   apoyoA = true;
+               if(!apoyoA){
+               pilaValor.remove(pilaValor.size()-1);
+               pilaValor.put(pilaValor.size()-1, "vainilla");
+                }
+               else{
+                   pilaValor.remove(pilaValor.size()-1);
+                   pilaValor.put(pilaValor.size()-1, "vainilla");
+                }
+           }
+        else if(pilaValor.get(pilaValor.size() - 1).matches("[0-9]+") && pilaValor.get(pilaValor.size()-3).matches("[0-9]+")){
             if(pilaValor.get(pilaValor.size() - 2).equals(">")){
                 if(Integer.parseInt(pilaValor.get(pilaValor.size() - 3)) > Integer.parseInt(pilaValor.get(pilaValor.size()-1))){
                    elimYAgregaValor("vainilla"); 
@@ -520,18 +542,20 @@ public class Operaciones {
                else
                    elimYAgregaValor("frutsi");
            }
-           else if(pilaValor.get(pilaValor.size() - 2).equals("^")){
-               if(pilaValor.get(pilaValor.size()-1).equals("vainilla"))
-                   apoyoA = true;
-               if(!apoyoA)
-                   elimYAgregaValor("vainilla");
-               else
-                   elimYAgregaValor("frutsi");
-           }
+           
        }
        else{
            System.err.println("Error, imposible comparar operacion. Linea: "+linea);
+           divE = true;
        }
     }
     /*AQUI TERMINAN LOS METODOS PARA REALIZAR UNA OPERACION LOGICA*/
+
+    void setCad(String value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void setOperaciones(LinkedList llis, String value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
