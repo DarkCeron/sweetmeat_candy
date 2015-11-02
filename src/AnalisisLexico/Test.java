@@ -23,7 +23,9 @@ public class Test {
     private static int tope = 0;
     private static String var[];
     private static LinkedList llist;
-
+//comentario
+    //otro comentario
+    
     public static Principal prin = new Principal();
     public static ValidaPalReserv valpalreserv = new ValidaPalReserv();
 
