@@ -29,7 +29,7 @@ public class Operaciones {
     private Variables varia = new Variables();
     String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate(){", "paletita"};
     /*METODO PRINCIPAL PARA VERIFICAR OPERACIONES LOGICAS Y MATEMATICAS*/
-    public void  algoritmoComplejo(Map obj, int linea, String signo, int LoM){
+    public void  algoritmoComplejo(Map obj, int linea, String signo, int LoM, String LectORNoLect){
         boolean salR = true;
         String cadena;
         Map<Integer, String> hm = new HashMap<Integer, String>();
@@ -118,7 +118,7 @@ public class Operaciones {
                 if(LoM == 1){
                     System.out.println("La cadena matematica ha sido aceptada.  Valor: "+pilaValor.get(0));
                     if(divE == false){
-                        varia.ModificaValIdentificador(aux, pilaValor.get(0));
+                        varia.ModificaValIdentificador(aux, pilaValor.get(0), LectORNoLect);
                     }
                 }
                 else{
@@ -165,7 +165,7 @@ public class Operaciones {
 
     /*AQUI COMIENZAN LOS METODOS PARA ANALIZAR UNA OPERACION MATEMATICA*/
     //Metodo del algoritmo
-    public boolean algoritmoAceptacion(String obtenLinea, int linea){
+    public boolean algoritmoAceptacion(String obtenLinea, int linea, String Lect){
         romp = false;
         pila = new HashMap<Integer, Integer>();
         x = 0;
@@ -177,31 +177,31 @@ public class Operaciones {
           
           if(romp == false){
             if(tabla[x].matches("[0-9]+")){
-                algoritmoComplejo(tm.numero(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.numero(), linea, tabla[x], 1, Lect);
             }
             else if(tabla[x].matches("[A-Za-z]+") && !varia.buscIgualdad(tabla[x])){
-                algoritmoComplejo(tm.identificador(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.identificador(), linea, tabla[x], 1, Lect);
             }
             else if(tabla[x].matches("[*]")){
-                algoritmoComplejo(tm.multiplicacion(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.multiplicacion(), linea, tabla[x], 1, Lect);
             }
             else if(tabla[x].matches("[/]")) {
-                algoritmoComplejo(tm.division(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.division(), linea, tabla[x], 1, Lect);
             }
             else if (tabla[x].matches("[+]")) {
-                algoritmoComplejo(tm.suma(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.suma(), linea, tabla[x], 1, Lect);
             } 
             else if(tabla[x].matches("[\\-]")) {
-                algoritmoComplejo(tm.resta(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.resta(), linea, tabla[x], 1, Lect);
             } 
             else if(tabla[x].matches("[\\(]")) {
-                algoritmoComplejo(tm.parabierto(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.parabierto(), linea, tabla[x], 1, Lect);
             }
             else if(tabla[x].matches("[\\)]")) {
-                algoritmoComplejo(tm.paracerrado(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.paracerrado(), linea, tabla[x], 1, Lect);
             }
             else if(tabla[x].matches("[$]")) {
-                algoritmoComplejo(tm.signPesos(), linea, tabla[x], 1);
+                algoritmoComplejo(tm.signPesos(), linea, tabla[x], 1, Lect);
             }
             else if(!varia.buscIgualdad(tabla[x]) && (!tabla[x].matches("[\\s]+")|| !tabla[x].equals(""))){
                 System.err.println("Error, la variable '"+tabla[x]+"' no ah sido inicializada. Error en la linea: "+linea);
@@ -218,7 +218,7 @@ public class Operaciones {
     }
     
     //Metodo, verifica si es una operacion matematica numerica o con identificadores
-    public boolean operacMate(String obtenLinea, int linea, LinkedList llis){
+    public boolean operacMate(String obtenLinea, int linea, LinkedList llis, String Lectura){
         //this.varia = variable;
         varia.setIdentificadores(llis);
         if(!obtenLinea.contains(supm[0]) && !obtenLinea.contains(supm[1]) && !obtenLinea.contains(supm[2]) && 
@@ -231,7 +231,7 @@ public class Operaciones {
            cadl[0].matches("[[\\(|\\)]*[\\w]*[*|\\-|+|/]{1}[\\w]*[\\(|\\)]]+")){
 
             if(aceptarOperacionMate(cadl[0], linea)){
-                if(algoritmoAceptacion(cadena, linea)){
+                if(algoritmoAceptacion(cadena, linea, Lectura)){
                     aceptacion = true;
                     cadena = "";
                 }
@@ -248,6 +248,7 @@ public class Operaciones {
     }
     
     //Metodo, acepta y concatena la linea matematica para poder hacer un split en tabla matematica 
+    
     public boolean aceptarOperacionMate(String obtenLinea, int linea){
 
             for (int x = 0; x <= obtenLinea.length(); x++) {
@@ -327,7 +328,7 @@ public class Operaciones {
     
     /*AQUI INICIA METODOS PARA REALIZAR UNA OPERACION LOGICA*/
 //Metodo del algoritmo
-    public boolean algoritmoAceptacionlogica(String obtenLinea, int linea){
+    public boolean algoritmoAceptacionlogica(String obtenLinea, int linea, String Lect){
         romp = false;
         pila = new HashMap<Integer, Integer>();
         x = 0;
@@ -337,46 +338,46 @@ public class Operaciones {
         while(x < tabla.length){
           if(romp == false)
             if (tabla[x].matches("&")) {
-                algoritmoComplejo(tl.and(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.and(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("[|]")){
-                algoritmoComplejo(tl.or(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.or(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("[%]")) {
-                algoritmoComplejo(tl.igual(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.igual(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("[¬]")) {
-                algoritmoComplejo(tl.diferente(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.diferente(), linea, tabla[x], 0, Lect);
             }
              else if(tabla[x].matches("[>]")) {
-                algoritmoComplejo(tl.mayor(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.mayor(), linea, tabla[x], 0, Lect);
             }
              else if(tabla[x].matches("[<]")) {
-                algoritmoComplejo(tl.menor(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.menor(), linea, tabla[x], 0, Lect);
             }
              else if(tabla[x].matches("[\\^]")) {
-                algoritmoComplejo(tl.negacion(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.negacion(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("vainilla")) {
-                algoritmoComplejo(tl.verdad(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.verdad(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("frutsi")) {
-                algoritmoComplejo(tl.falso(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.falso(), linea, tabla[x], 0, Lect);
             }
             else if(!varia.buscIgualdad(tabla[x])){
-                algoritmoComplejo(tl.id(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.id(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("[0-9]+")){
-                algoritmoComplejo(tl.num(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.num(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("[\\(]")) {
-                algoritmoComplejo(tl.parenabre(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.parenabre(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("[\\)]")) {
-                algoritmoComplejo(tl.parencierra(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.parencierra(), linea, tabla[x], 0, Lect);
             }
             else if(tabla[x].matches("[$]")){
-                algoritmoComplejo(tl.pesos(), linea, tabla[x], 0);
+                algoritmoComplejo(tl.pesos(), linea, tabla[x], 0, Lect);
             }         
             x++;
         }
@@ -387,7 +388,7 @@ public class Operaciones {
     }
     
     //Metodo, verifica si es una operacion logica numerica o con identificadores
-    public boolean operacLogic(String obtenLinea, int linea, String palres, LinkedList llist){
+    public boolean operacLogic(String obtenLinea, int linea, String palres, LinkedList llist, String Lectura){
         this.llist = llist;
         varia.setIdentificadores(llist);
         String separa[] = obtenLinea.split("\\("), valor = "";
@@ -405,7 +406,7 @@ public class Operaciones {
             String cad = valor.replaceAll("\\s", "");
             
             if(aceptarOperacionLogic(cad, linea)){
-                if(algoritmoAceptacionlogica(cadena, linea)){
+                if(algoritmoAceptacionlogica(cadena, linea, Lectura)){
                     aceptacion = false;
                     cadena = "";
                 }

@@ -32,12 +32,12 @@ public class ValidaPalReserv {
                     
                     if(ValSiEsPalReserv(varAConca[0]) && !ValSiEsPalReserv(separParen[1])){
                         if(separParen[1].matches("([a-zA-Z0-9])+")){
-                        var.setAgregaIdentificador(separParen[1], varAConca[0], var.retValPorDefecto(varAConca[0]), "ID"+linea, linea);
+                        var.setAgregaIdentificador(separParen[1], varAConca[0], var.retValPorDefecto(varAConca[0]), "ID"+linea, linea, "N");
                         noEncontrado = true;
                         }
                         else if(separParen[1].matches("([a-zA-Z])+[=]([0-9])+")){
                             separIgual = separParen[1].split("=");
-                            var.setAgregaIdentificador(separIgual[0], varAConca[0], separIgual[1], "ID"+linea, linea);
+                            var.setAgregaIdentificador(separIgual[0], varAConca[0], separIgual[1], "ID"+linea, linea, "N");
                         }
                         else if(separParen[1].matches("[a-zA-Z]+[=][vainilla|frutsi]")){
                             System.out.println("holaaaa");
@@ -45,13 +45,13 @@ public class ValidaPalReserv {
                         }
                         else if(separParen[1].matches("([a-zA-Z])+[=]([a-zA-Z])+")){
                             separIgual = separParen[1].split("=");
-                            var.setAgregaIdentificador(separIgual[0], varAConca[0], var.retValPorDefecto(varAConca[0]), "ID"+linea, linea);
+                            var.setAgregaIdentificador(separIgual[0], varAConca[0], var.retValPorDefecto(varAConca[0]), "ID"+linea, linea, "N");
                             var.BuscID(separIgual[0], separIgual[1], linea);
                         }
                         else if(separParen[1].matches("([a-zA-Z])+[=](\"|\')([a-zA-Z])+(\"|\')")){
                             separIgual = separParen[1].split("=");
-                            var.setAgregaIdentificador(separIgual[0], varAConca[0], var.retValPorDefecto(varAConca[0]), "ID"+linea, linea);
-                            var.ModificaValIdentificador(separIgual[0], separIgual[1]);
+                            var.setAgregaIdentificador(separIgual[0], varAConca[0], var.retValPorDefecto(varAConca[0]), "ID"+linea, linea, "N");
+                            var.ModificaValIdentificador(separIgual[0], separIgual[1], "N");
                         }
                         
                     }
@@ -61,12 +61,12 @@ public class ValidaPalReserv {
                     
                 }
                 else if((!obtenLinea.matches("[\\s]+")|| !obtenLinea.equals("")) && obtenLinea.contains("=")){
-                    if(!obtenLinea.contains("vainilla") && !obtenLinea.contains("frutsi") && operac.operacMate(obtenLinea, linea, var.llist)){
+                    if(!obtenLinea.contains("vainilla") && !obtenLinea.contains("frutsi") && operac.operacMate(obtenLinea, linea, var.llist, "N")){
                     noEncontrado = true;
                     }
                     else{
                         String []val = vIDI.separaTodo(obtenLinea);
-                        var.ModificaValIdentificador(val[0], val[1]);
+                        var.ModificaValIdentificador(val[0], val[1], "N");
                         noEncontrado = true;
                     }
                 }
@@ -77,7 +77,7 @@ public class ValidaPalReserv {
                 }
                 else if(vIDI.ValidaVal(obtenLinea, linea) && (!obtenLinea.matches("[\\s]+")|| !obtenLinea.equals(""))){
                        String[] val = vIDI.separaTodo(obtenLinea);
-                       var.ModificaValIdentificador(val[0], val[1]);
+                       var.ModificaValIdentificador(val[0], val[1], "N");
                        noEncontrado = true;
                 }
                 else if((obtenLinea.matches("[\\s]+")|| obtenLinea.equals(""))){

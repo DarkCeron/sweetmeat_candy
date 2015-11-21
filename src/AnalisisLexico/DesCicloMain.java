@@ -17,7 +17,7 @@ public class DesCicloMain {
     private Variables varia;
     Operaciones ope = new Operaciones();
     LinkedList llist;
-    String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate", "paletita"};  
+    String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate", "paletita", "Postre"};  
     
         public boolean EvaluaBloques(String obtenLinea, int linea, LinkedList lli){
         llist = lli;
@@ -36,7 +36,9 @@ public class DesCicloMain {
         else if(Main(obtenLinea, linea)){
             bandera  = true;
         }
-        
+        else if(Lectura(obtenLinea, linea)){
+            bandera = true;
+        }
         else{
             bandera = true;
         }
@@ -47,7 +49,7 @@ public class DesCicloMain {
     public boolean Desicion(String obtenLinea, int linea){
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[0])){
-        if(ope.operacLogic(obtenLinea, linea, supm[0], llist)){
+        if(ope.operacLogic(obtenLinea, linea, supm[0], llist, "N")){
             bandera = false;
         }
         else {
@@ -65,7 +67,7 @@ public class DesCicloMain {
         
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[3])){
-        if(ope.operacLogic(obtenLinea, linea, supm[3], llist)){
+        if(ope.operacLogic(obtenLinea, linea, supm[3], llist, "N")){
             bandera = false;
         }
         else {
@@ -83,7 +85,7 @@ public class DesCicloMain {
         
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[1])){
-        if(ope.operacLogic(obtenLinea, linea, supm[1], llist)){
+        if(ope.operacLogic(obtenLinea, linea, supm[1], llist, "N")){
             bandera = false;
         }
         else {
@@ -101,7 +103,7 @@ public class DesCicloMain {
         
        String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[2])){
-        if(ope.operacLogic(obtenLinea, linea, supm[2], llist)){
+        if(ope.operacLogic(obtenLinea, linea, supm[2], llist, "N")){
             bandera = false;
         }
         else {
@@ -119,7 +121,7 @@ public class DesCicloMain {
         
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[4])){
-        if(ope.operacLogic(obtenLinea, linea, supm[4], llist)){
+        if(ope.operacLogic(obtenLinea, linea, supm[4], llist, "N")){
             bandera = false;
         }
         else {
@@ -131,6 +133,23 @@ public class DesCicloMain {
         }
         
         return bandera;
+    }
+    
+    public boolean Lectura(String obtenLinea, int linea){
+       String aux[] = obtenLinea.split("\\(");
+        if(aux[0].equals(supm[5])){
+        if(ope.operacMate(obtenLinea, linea, llist, "L")){
+            bandera = false;
+        }
+        else {
+            bandera = true;
+        }
+        }
+        else{
+            bandera = false;
+        }
+        
+        return bandera; 
     }
     
     public boolean Buscsupm(String verLinea){

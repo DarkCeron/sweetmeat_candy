@@ -27,12 +27,12 @@ public class Variables {
     }
     
     //Agrega a la tabla de simbolos
-    public void setAgregaIdentificador(String ID, String palReserv, String valor, String IDpos, int linea){
-        //name+":"+palres+":"+newList[2]+":"+ID
+    public void setAgregaIdentificador(String ID, String palReserv, String valor, String IDpos, int linea, String LeerNoLeido){
+        //name+":"+palres+":"+newList[2]+":"+ID+"Valor"+"Si identifica lectura o no"
         this.linea = linea;
         if(buscIgualdad(ID)){
             if(ValidaValor(palReserv, valor)){
-                llist.add(ID+":"+palReserv+":"+valor+":"+IDpos);
+                llist.add(ID+":"+palReserv+":"+valor+":"+IDpos+":"+LeerNoLeido);
             }
             else{
                 System.err.println("Error: la variable no se declaro por que el valor '"+valor+"' no concuerda con el tipo: '"+palReserv+"'. Error en la linea: "+linea);
@@ -45,7 +45,7 @@ public class Variables {
     }
     
     //Modifica valores de la tabla
-    public LinkedList ModificaValIdentificador(String ID, String nuevoValor){
+    public LinkedList ModificaValIdentificador(String ID, String nuevoValor, String LeerNoLeido){
         String sacaTabSimb;
         String[] varDTabSimb;
         for(int x = 0 ; x < llist.size() ; x++){
@@ -53,7 +53,7 @@ public class Variables {
             varDTabSimb = sacaTabSimb.split(":");
             if(ID.equals(varDTabSimb[0])){
                 if(ValidaValor(varDTabSimb[1], nuevoValor)){
-                    llist.set(x , varDTabSimb[0]+":"+varDTabSimb[1]+":"+nuevoValor+":"+varDTabSimb[3]+":"+this.linea);
+                    llist.set(x , varDTabSimb[0]+":"+varDTabSimb[1]+":"+nuevoValor+":"+varDTabSimb[3]+LeerNoLeido);
                     break;
                 }
                 else{
@@ -149,12 +149,12 @@ public class Variables {
             if(ID2.equals("frutsi")){
                 Valor2 = (String)llist.get(puntero2);
                 vaSTabSim2 = Valor2.split(":");
-                ModificaValIdentificador(ID2, "frutsi");
+                ModificaValIdentificador(ID2, "frutsi", vaSTabSim2[4]);
             }
             else if(ID2.equals("vainilla")){
                 Valor2 = (String)llist.get(puntero2);
                 vaSTabSim2 = Valor2.split(":");
-                ModificaValIdentificador(ID2, "vainilla");
+                ModificaValIdentificador(ID2, "vainilla", vaSTabSim2[4]);
             }
             OK2 = true;
         }
@@ -164,7 +164,7 @@ public class Variables {
             Valor2 = (String)llist.get(puntero2);
             vaSTabSim2 = Valor2.split(":");
             if(vaSTabSim1[1].equals(vaSTabSim2[1])){
-                ModificaValIdentificador(ID, vaSTabSim2[2]);
+                ModificaValIdentificador(ID, vaSTabSim2[2], vaSTabSim2[4]);
             }
             else{
                 System.err.println("Error, la variable ID '"+vaSTabSim2[0]+"' no es de tipo: "+vaSTabSim1[1]+". Error en la linea "+linea);
