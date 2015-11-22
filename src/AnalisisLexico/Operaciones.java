@@ -220,6 +220,11 @@ public class Operaciones {
             x++;
         }
        // romp = false;
+        for (int limpia = 1; limpia < resultados.length; limpia++) {
+            resultados[limpia] = "";
+        }
+        temporalNo = 1;
+        temporales.clear();
         pila.clear();
         pilaValor.clear();
         return aceptacion;
