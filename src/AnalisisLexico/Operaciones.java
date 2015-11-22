@@ -17,8 +17,9 @@ import java.util.Map;
  * @author ceron
  */
 public class Operaciones {
-    public int c = 0;
-    public boolean aceptacion = false, romp = false, divE = false;
+    private String[] resultados = new String[]{"","","","","","","","","",""};
+    public int c = 0, temporalNo = 1, borraValores = 0;
+    public boolean aceptacion = false, romp = false, divE = false, haztemp = false;
     public String cadena = "", ID = "", desp = "", aux ;
     public int x = 0;
     public Map<Integer, Integer> pila = new HashMap<Integer, Integer>();
@@ -26,8 +27,10 @@ public class Operaciones {
     public TablasMatematicas tm = new TablasMatematicas();
     public logica tl = new logica();
     public LinkedList llist;
+    public LinkedList temporales = new LinkedList();
     private Variables varia = new Variables();
-    String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate(){", "paletita"};
+    private Codigo_intermedio codeint = new Codigo_intermedio();
+    String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate(){", "paletita", "Postre"};
     /*METODO PRINCIPAL PARA VERIFICAR OPERACIONES LOGICAS Y MATEMATICAS*/
     public void  algoritmoComplejo(Map obj, int linea, String signo, int LoM, String LectORNoLect){
         boolean salR = true;
@@ -119,6 +122,9 @@ public class Operaciones {
                     System.out.println("La cadena matematica ha sido aceptada.  Valor: "+pilaValor.get(0));
                     if(divE == false){
                         varia.ModificaValIdentificador(aux, pilaValor.get(0), LectORNoLect);
+                        for (int x = 0; x < temporales.size() ;x++) {
+                            System.out.println(temporales.get(x));
+                        }
                     }
                 }
                 else{
@@ -173,6 +179,8 @@ public class Operaciones {
         pila.put(pila.size(), 0);
         String oldtable = obtenLinea.replaceAll("  ", " ");
         String [] tabla = oldtable.split(" ");
+        for(int v = 0; v < tabla.length; v++)
+            if(varia.ObtieneLeerORNoLeer(tabla[v])) haztemp = true;
         while(x < tabla.length){
           
           if(romp == false){
@@ -222,7 +230,7 @@ public class Operaciones {
         //this.varia = variable;
         varia.setIdentificadores(llis);
         if(!obtenLinea.contains(supm[0]) && !obtenLinea.contains(supm[1]) && !obtenLinea.contains(supm[2]) && 
-           !obtenLinea.contains(supm[3]) && !obtenLinea.contains(supm[4])){
+           !obtenLinea.contains(supm[3]) && !obtenLinea.contains(supm[4]) && !obtenLinea.contains(supm[5])){
         String cad = obtenLinea.replaceAll("\\s", "");
         String[] cadnew = cad.split("=");
         String[] cadl = cadnew[1].split(";");
@@ -283,27 +291,43 @@ public class Operaciones {
     
     public void RealizaOperacion(){
         Integer auxiliar = 0;
+        
         if(pilaValor.size() >= 3){
            char valor[] = (pilaValor.get(pilaValor.size()-2)).toCharArray();
             switch(valor[0]){
                 case '+':{
+                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
                   auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) + Integer.parseInt(pilaValor.get(pilaValor.size()-3));
-                    elimYAgregaValor(auxiliar.toString());
+                  resultados[temporalNo] = auxiliar+"";
+                    temporalNo++;
+                  elimYAgregaValor(auxiliar.toString());
                     break;
                 }
                 case '-':{
+                  
+                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
                   auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) - Integer.parseInt(pilaValor.get(pilaValor.size()-3));
+                  resultados[temporalNo] = auxiliar+"";
+                    temporalNo++;
                   elimYAgregaValor(auxiliar.toString());
                     break;
                 }
                 case '*':{
+                  
+                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
                   auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) * Integer.parseInt(pilaValor.get(pilaValor.size()-3));
+                  resultados[temporalNo] = auxiliar+"";
+                    temporalNo++;
                   elimYAgregaValor(auxiliar.toString());
                     break;
                 }
                 case '/':{
                   if(Integer.parseInt(pilaValor.get(pilaValor.size()-3)) != 0){
-                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) / Integer.parseInt(pilaValor.get(pilaValor.size()-3));
+                  
+                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
+                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-3)) / Integer.parseInt(pilaValor.get(pilaValor.size()-1));
+                  resultados[temporalNo] = auxiliar+"";
+                    temporalNo++;
                   elimYAgregaValor(auxiliar.toString());
                   }
                   else{
@@ -319,6 +343,45 @@ public class Operaciones {
         }
     }
     
+        public void verificacionTemporales(String valor1, String signo, String valor2){
+        int tem1 = 0, tem2 = 0;
+        boolean ban1 = false, ban2 = false;
+        if(haztemp == true){
+            
+            for (int rev = borraValores; rev < resultados.length; rev++) {
+                if(!resultados[rev].equals(valor1))
+                    ban1 = true;    
+                else{
+                    ban1 = false;
+                    tem1 = rev;
+                    break;
+                }
+            }
+            for (int rev = 1; rev < resultados.length; rev++) {
+                if(!resultados[rev].equals(valor2))
+                    ban2 = true;
+                else{
+                    ban2 = false;
+                    tem2 = rev;
+                    break;
+                }
+            }
+            if (ban1 == true && ban2 == true){
+                temporales.add(codeint.hazTemporal(valor1, signo, valor2, temporalNo, temporales, 1,  0 , 0));
+            }
+            else if(ban1 == false && ban2 == true){
+                temporales.add(codeint.hazTemporal(valor1, signo, valor2, temporalNo, temporales, 2, tem1, 0));
+            }
+            else if(ban1 == true && ban2 == false){
+                temporales.add(codeint.hazTemporal(valor1, signo, valor2, temporalNo, temporales, 3,  0  , tem1));
+            }
+            else{
+                temporales.add(codeint.hazTemporal(valor1, signo, valor2, temporalNo, temporales, 4, tem1, tem2));
+                borraValores += 2;
+            }
+        }
+    }
+        
     public void elimYAgregaValor(String aux){
         pilaValor.remove(pilaValor.size()-1);
         pilaValor.remove(pilaValor.size()-1);

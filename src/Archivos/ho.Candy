@@ -1,5 +1,7 @@
-bombon c;
-c = frutsi;
+Bubulubu bu;
+Bubulubu hi;
+Postre(bu);
+hi = 13 * 10 + bu / 2 +30;
 Pastelito(^(3>4<5)) {
 
 }

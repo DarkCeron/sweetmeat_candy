@@ -53,7 +53,7 @@ public class Variables {
             varDTabSimb = sacaTabSimb.split(":");
             if(ID.equals(varDTabSimb[0])){
                 if(ValidaValor(varDTabSimb[1], nuevoValor)){
-                    llist.set(x , varDTabSimb[0]+":"+varDTabSimb[1]+":"+nuevoValor+":"+varDTabSimb[3]+LeerNoLeido);
+                    llist.set(x , varDTabSimb[0]+":"+varDTabSimb[1]+":"+nuevoValor+":"+varDTabSimb[3]+":"+LeerNoLeido);
                     break;
                 }
                 else{
@@ -99,6 +99,25 @@ public class Variables {
         return banIgualdad; 
     }
     
+    //Revisa si la variable es de tipo lectura o no
+    public boolean ObtieneLeerORNoLeer(String ID){
+        boolean ban = false;
+        String sacaTabSim;
+        String[] vaSTabSim;
+        String banIgualdad = "";
+        for (int x = 0; x < llist.size(); x++) {
+            sacaTabSim = (String)llist.get(x);
+            vaSTabSim = sacaTabSim.split(":");
+            if("L".equals(vaSTabSim[4])){
+                ban = true;
+                break;
+            }
+        }
+        
+        return ban;
+    }
+    //Fin
+    
     //Obtiene posicion de la variable y retorna un entero
     public int RegresaPosicion(String ID){
         int valor = 1;
@@ -114,6 +133,7 @@ public class Variables {
         }
         return valor;
     }
+    
     //Obtiene valor de la variable y retorna un String
     public String RegresaValor(String ID){
         String valor = "";
@@ -134,7 +154,7 @@ public class Variables {
     //Obtiene valores de identificadores
     public void BuscID(String ID, String ID2, int linea){
         //ImpTabSimbolos();
-        String tabla1 = "", tabla2 = "", Valor1 = "", Valor2 = "", entrega = "", ad = "",id = "";
+        String  Valor1 = "", Valor2 = "", entrega = "";
         String[] vaSTabSim1, vaSTabSim2;
         boolean OK1 = false, OK2 = false;
         int x, puntero1 = 0,puntero2 = 0;

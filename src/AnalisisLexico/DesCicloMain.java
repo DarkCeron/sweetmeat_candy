@@ -6,7 +6,12 @@
 package AnalisisLexico;
 
 import Repositorio.Variables;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
+import com.sun.org.apache.xalan.internal.lib.ExsltStrings;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  *
@@ -17,10 +22,11 @@ public class DesCicloMain {
     private Variables varia;
     Operaciones ope = new Operaciones();
     LinkedList llist;
+    Scanner var = new Scanner(System.in);
     String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate", "paletita", "Postre"};  
     
         public boolean EvaluaBloques(String obtenLinea, int linea, LinkedList lli){
-        llist = lli;
+        this.llist = lli;
         if(Desicion(obtenLinea, linea)){
             bandera  = true;
         }
@@ -122,6 +128,7 @@ public class DesCicloMain {
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[4])){
         if(ope.operacLogic(obtenLinea, linea, supm[4], llist, "N")){
+            
             bandera = false;
         }
         else {
@@ -136,13 +143,27 @@ public class DesCicloMain {
     }
     
     public boolean Lectura(String obtenLinea, int linea){
+       varia = new Variables();
        String aux[] = obtenLinea.split("\\(");
+       String variable;
+       boolean ban = true;
         if(aux[0].equals(supm[5])){
-        if(ope.operacMate(obtenLinea, linea, llist, "L")){
-            bandera = false;
+        if(aux[1].matches("[a-zA-Z]+[\\)][;]")){
+            String valor = aux[1].replaceAll("\\);", "");
+            do{
+            System.out.print(valor.toUpperCase()+": ");
+            variable = var.nextLine();
+            if(!variable.matches("[0-9]{1,3}")){
+                System.err.print("================> Imposible leer strings, Intentelo de nuevo \n");
+            }
+            else ban = false;
+            }while(ban);
+            varia.setIdentificadores(llist);
+            varia.ModificaValIdentificador(valor.toLowerCase(), variable, "L");
+            bandera = true;
         }
         else {
-            bandera = true;
+            bandera = false;
         }
         }
         else{
