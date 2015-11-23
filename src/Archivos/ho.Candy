@@ -2,6 +2,7 @@ Bubulubu bu;
 Bubulubu hi;
 Postre(bu);
 hi = 13 * 10 + bu / 2 +30;
+Postre(du);
 Pastelito(^(3>4<5)) {
 
 }
