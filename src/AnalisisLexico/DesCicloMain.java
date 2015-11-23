@@ -144,23 +144,29 @@ public class DesCicloMain {
     
     public boolean Lectura(String obtenLinea, int linea){
        varia = new Variables();
+       varia.setIdentificadores(llist);
        String aux[] = obtenLinea.split("\\(");
        String variable;
        boolean ban = true;
         if(aux[0].equals(supm[5])){
         if(aux[1].matches("[a-zA-Z]+[\\)][;]")){
             String valor = aux[1].replaceAll("\\);", "");
-            do{
-            System.out.print(valor.toUpperCase()+": ");
-            variable = var.nextLine();
-            if(!variable.matches("[0-9]{1,3}")){
-                System.err.print("================> Imposible leer strings, Intentelo de nuevo \n");
-            }
-            else ban = false;
-            }while(ban);
-            varia.setIdentificadores(llist);
+            if(!varia.buscIgualdad(valor)){
+                do{
+                System.out.print(valor.toUpperCase()+": ");
+                variable = var.nextLine();
+                    if(!variable.matches("[0-9]{1,3}")){
+                        System.err.print("================> Imposible leer strings, Intentelo de nuevo \n");
+                    }
+                    else ban = false;
+                }while(ban);
+            
             varia.ModificaValIdentificador(valor.toLowerCase(), variable, "L");
             bandera = true;
+            }
+            else{
+                System.err.println("Imposible leer "+valor.toUpperCase()+" Error en la linea:"+linea);
+            }
         }
         else {
             bandera = false;
