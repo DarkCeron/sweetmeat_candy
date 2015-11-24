@@ -152,16 +152,7 @@ public class DesCicloMain {
         if(aux[1].matches("[a-zA-Z]+[\\)][;]")){
             String valor = aux[1].replaceAll("\\);", "");
             if(!varia.buscIgualdad(valor)){
-                do{
-                System.out.print(valor.toUpperCase()+": ");
-                variable = var.nextLine();
-                    if(!variable.matches("[0-9]{1,3}")){
-                        System.err.print("================> Imposible leer strings, Intentelo de nuevo \n");
-                    }
-                    else ban = false;
-                }while(ban);
-            
-            varia.ModificaValIdentificador(valor.toLowerCase(), variable, "L");
+            varia.ModificaValIdentificador(valor.toLowerCase(), "0", "L");
             bandera = true;
             }
             else{

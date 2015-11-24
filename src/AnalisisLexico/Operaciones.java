@@ -18,12 +18,13 @@ import java.util.Map;
  */
 public class Operaciones {
     private String[] resultados = new String[]{"","","","","","","","","",""};
-    public int c = 0, temporalNo = 1, borraValores = 0;
+    public int c = 0, temporalNo = 1, borraValores = 0, posValor, auxPosValor;
     public boolean aceptacion = false, romp = false, divE = false, haztemp = false;
-    public String cadena = "", ID = "", desp = "", aux ;
+    public String cadena = "", ID = "", desp = "", aux, valorIgual = "" ;
     public int x = 0;
     public Map<Integer, Integer> pila = new HashMap<Integer, Integer>();
     public Map<Integer, String> pilaValor = new HashMap<Integer, String>();
+    private Map<Integer, String> espejoLista = new HashMap<Integer, String>();
     public TablasMatematicas tm = new TablasMatematicas();
     public logica tl = new logica();
     public LinkedList llist;
@@ -148,7 +149,10 @@ public class Operaciones {
         if(!signo.equals("(") && !signo.equals(")")){
             if(signo.matches("[A-Za-z]+") && !signo.matches("vainilla") && !signo.matches("frutsi")){
                 ID = signo;
+                valorIgual = ID;
                 signo=varia.obtieneValor(signo);
+                if(varia.ObtieneLeerORNoLeer(ID)) espejoLista.put(espejoLista.size(),ID);
+                else espejoLista.put(espejoLista.size(),signo);
                 if(signo.matches("[0-9]+")){
                   pilaValor.put(pilaValor.size(), signo); 
                 }
@@ -162,7 +166,7 @@ public class Operaciones {
                 ID = "";
             }
             else{
-                
+            espejoLista.put(espejoLista.size(), signo);
             pilaValor.put(pilaValor.size(), signo);
             }
         }
@@ -173,6 +177,7 @@ public class Operaciones {
     //Metodo del algoritmo
     public boolean algoritmoAceptacion(String obtenLinea, int linea, String Lect){
         romp = false;
+        haztemp = false;
         pila = new HashMap<Integer, Integer>();
         x = 0;
         c = 0;
@@ -180,9 +185,13 @@ public class Operaciones {
         String oldtable = obtenLinea.replaceAll("  ", " ");
         String [] tabla = oldtable.split(" ");
         for(int v = 0; v < tabla.length; v++)
-            if(varia.ObtieneLeerORNoLeer(tabla[v])) haztemp = true;
+            if(varia.ObtieneLeerORNoLeer(tabla[v])){
+                haztemp = true;
+                posValor = v;
+                break;
+            }
         while(x < tabla.length){
-          
+          auxPosValor = x;
           if(romp == false){
             if(tabla[x].matches("[0-9]+")){
                 algoritmoComplejo(tm.numero(), linea, tabla[x], 1, Lect);
@@ -227,12 +236,13 @@ public class Operaciones {
         temporales.clear();
         pila.clear();
         pilaValor.clear();
+        haztemp = false;
         return aceptacion;
     }
     
     //Metodo, verifica si es una operacion matematica numerica o con identificadores
     public boolean operacMate(String obtenLinea, int linea, LinkedList llis, String Lectura){
-        //this.varia = variable;
+        haztemp = false;
         varia.setIdentificadores(llis);
         if(!obtenLinea.contains(supm[0]) && !obtenLinea.contains(supm[1]) && !obtenLinea.contains(supm[2]) && 
            !obtenLinea.contains(supm[3]) && !obtenLinea.contains(supm[4]) && !obtenLinea.contains(supm[5])){
@@ -301,38 +311,55 @@ public class Operaciones {
            char valor[] = (pilaValor.get(pilaValor.size()-2)).toCharArray();
             switch(valor[0]){
                 case '+':{
-                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
-                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) + Integer.parseInt(pilaValor.get(pilaValor.size()-3));
-                  resultados[temporalNo] = auxiliar+"";
+                  if(haztemp == true){
+                  verificacionTemporales(espejoLista.get(espejoLista.size()-3), Character.toString(valor[0]), espejoLista.get(espejoLista.size()-1));
+                  String aux = (String)temporales.get(temporales.size()-1);
+                  String auxLast[] = aux.split(" ");
+                  elimYAgregaValorEspejo(auxLast[0]);
+                  resultados[temporalNo] = auxLast[0]+"";
                     temporalNo++;
+                  }
+                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) + Integer.parseInt(pilaValor.get(pilaValor.size()-3));
                   elimYAgregaValor(auxiliar.toString());
                     break;
                 }
                 case '-':{
-                  
-                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
-                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) - Integer.parseInt(pilaValor.get(pilaValor.size()-3));
-                  resultados[temporalNo] = auxiliar+"";
+                  if(haztemp == true){
+                  verificacionTemporales(espejoLista.get(espejoLista.size()-3), Character.toString(valor[0]), espejoLista.get(espejoLista.size()-1));
+                  String aux = (String)temporales.get(temporales.size()-1);
+                  String auxLast[] = aux.split(" ");
+                  elimYAgregaValorEspejo(auxLast[0]);
+                  resultados[temporalNo] = auxLast[0]+"";
                     temporalNo++;
+                  }
+                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) - Integer.parseInt(pilaValor.get(pilaValor.size()-3));
                   elimYAgregaValor(auxiliar.toString());
                     break;
                 }
                 case '*':{
-                  
-                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
-                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) * Integer.parseInt(pilaValor.get(pilaValor.size()-3));
-                  resultados[temporalNo] = auxiliar+"";
+                  if(haztemp == true){
+                  verificacionTemporales(espejoLista.get(espejoLista.size()-3), Character.toString(valor[0]), espejoLista.get(espejoLista.size()-1));
+                  String aux = (String)temporales.get(temporales.size()-1);
+                  String auxLast[] = aux.split(" ");
+                  elimYAgregaValorEspejo(auxLast[0]);
+                  resultados[temporalNo] = auxLast[0]+"";
                     temporalNo++;
+                  }
+                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-1)) * Integer.parseInt(pilaValor.get(pilaValor.size()-3));
                   elimYAgregaValor(auxiliar.toString());
                     break;
                 }
                 case '/':{
-                  if(Integer.parseInt(pilaValor.get(pilaValor.size()-3)) != 0){
-                  
-                  verificacionTemporales(pilaValor.get(pilaValor.size()-3), Character.toString(valor[0]), pilaValor.get(pilaValor.size()-1));
-                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-3)) / Integer.parseInt(pilaValor.get(pilaValor.size()-1));
-                  resultados[temporalNo] = auxiliar+"";
+                  if(Integer.parseInt(pilaValor.get(pilaValor.size()-3)) != 0 || espejoLista.get(espejoLista.size()-3).matches("[a-zA-Z]+")){
+                  if(haztemp == true){
+                  verificacionTemporales(espejoLista.get(espejoLista.size()-3), Character.toString(valor[0]), espejoLista.get(espejoLista.size()-1));
+                  String aux = (String)temporales.get(temporales.size()-1);
+                  String auxLast[] = aux.split(" ");
+                  elimYAgregaValorEspejo(auxLast[0]);
+                  resultados[temporalNo] = auxLast[0]+"";
                     temporalNo++;
+                  }
+                  auxiliar = Integer.parseInt(pilaValor.get(pilaValor.size()-3)) / Integer.parseInt(pilaValor.get(pilaValor.size()-1));
                   elimYAgregaValor(auxiliar.toString());
                   }
                   else{
@@ -343,8 +370,6 @@ public class Operaciones {
                 }
 
             }
-            
-            
         }
     }
     
@@ -374,7 +399,7 @@ public class Operaciones {
             if (ban1 == true && ban2 == true){
                 temporales.add(codeint.hazTemporal(valor1, signo, valor2, temporalNo, temporales, 1,  0 , 0));
             }
-            else if(ban1 == false && ban2 == true){
+            else if(ban1 == false && ban2 == true){ 
                 temporales.add(codeint.hazTemporal(valor1, signo, valor2, temporalNo, temporales, 2, tem1, 0));
             }
             else if(ban1 == true && ban2 == false){
@@ -391,6 +416,11 @@ public class Operaciones {
         pilaValor.remove(pilaValor.size()-1);
         pilaValor.remove(pilaValor.size()-1);
         pilaValor.put(pilaValor.size()-1, aux);
+    }
+    public void elimYAgregaValorEspejo(String aux){
+        espejoLista.remove(espejoLista.size()-1);
+        espejoLista.remove(espejoLista.size()-1);
+        espejoLista.put(espejoLista.size()-1, aux);
     }
     /*AQUI TERMINAN LOS METODOS PARA ANALIZAR UNA OPERACION MATEMATICA*/
     

@@ -107,10 +107,12 @@ public class Variables {
         String banIgualdad = "";
         for (int x = 0; x < llist.size(); x++) {
             sacaTabSim = (String)llist.get(x);
-            vaSTabSim = sacaTabSim.split(":");
-            if("L".equals(vaSTabSim[4])){
-                ban = true;
-                break;
+            vaSTabSim = sacaTabSim.split(":");  
+            if(ID.equals(vaSTabSim[0])){
+                if(vaSTabSim[4].equals("L")){
+                    ban = true;
+                    break;
+                }
             }
         }
         

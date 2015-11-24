@@ -19,19 +19,19 @@ public class Codigo_intermedio {
         String temporal = "";
         switch(ban){
             case 1:{
-                temporal = " T"+NoDeTemporal+" = "+Valor1+" "+signo+" "+Valor2;
+                temporal = "T"+NoDeTemporal+" = "+Valor1+" "+signo+" "+Valor2;
                 break;
             }
             case 2:{
-                temporal = " T"+NoDeTemporal+" = "+" T"+temp1+" "+signo+" "+Valor2;
+                temporal = "T"+NoDeTemporal+" = "+" T"+temp1+" "+signo+" "+Valor2;
                 break;
             }
             case 3:{
-                temporal = " T"+NoDeTemporal+" = "+Valor1+" "+signo+" T"+temp2;
+                temporal = "T"+NoDeTemporal+" = "+Valor1+" "+signo+" T"+temp2;
                 break;
             }
             case 4:{
-                temporal = " T"+NoDeTemporal+" = "+" T"+temp1+" "+signo+" T"+temp2;
+                temporal = "T"+NoDeTemporal+" = "+" T"+temp1+" "+signo+" T"+temp2;
             }
         }
            
