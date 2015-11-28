@@ -7,6 +7,8 @@ package AnalisisLexico;
 
 import static AnalisisLexico.TablasMatematicas.statesr;
 import Repositorio.Variables;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,7 +22,7 @@ public class Operaciones {
     private String[] resultados = new String[]{"","","","","","","","","",""};
     public int c = 0, temporalNo = 1, borraValores = 0, posValor, auxPosValor;
     public boolean aceptacion = false, romp = false, divE = false, haztemp = false;
-    public String cadena = "", ID = "", desp = "", aux, valorIgual = "" ;
+    public String cadena = "", ID = "", desp = "", aux, valorIgual = "", tempo = "", variable;
     public int x = 0;
     public Map<Integer, Integer> pila = new HashMap<Integer, Integer>();
     public Map<Integer, String> pilaValor = new HashMap<Integer, String>();
@@ -33,7 +35,7 @@ public class Operaciones {
     private Codigo_intermedio codeint = new Codigo_intermedio();
     String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate(){", "paletita", "Postre"};
     /*METODO PRINCIPAL PARA VERIFICAR OPERACIONES LOGICAS Y MATEMATICAS*/
-    public void  algoritmoComplejo(Map obj, int linea, String signo, int LoM, String LectORNoLect){
+    public void  algoritmoComplejo(Map obj, int linea, String signo, int LoM, String LectORNoLect) throws FileNotFoundException, IOException {
         boolean salR = true;
         String cadena;
         Map<Integer, String> hm = new HashMap<Integer, String>();
@@ -110,7 +112,7 @@ public class Operaciones {
                }
                else if(sep[0].equals("E")){
                    if(LoM == 0){
-                   tab = tl.E();
+               tab = tl.E();
                    }
                    if(tab.get(pila.get(pila.size()-1)) != "E"){
                        pilaAux = Integer.parseInt(tab.get(pila.get(pila.size()-1)));
@@ -123,9 +125,12 @@ public class Operaciones {
                     System.out.println("La cadena matematica ha sido aceptada.  Valor: "+pilaValor.get(0));
                     if(divE == false){
                         varia.ModificaValIdentificador(aux, pilaValor.get(0), LectORNoLect);
+                       temporales.add(codeint.hazTemporal(espejoLista.get(espejoLista.size()-1), signo, variable, temporalNo, temporales, 5, 0, 0));
                         for (int x = 0; x < temporales.size() ;x++) {
                             System.out.println(temporales.get(x));
+                            tempo = (String)temporales.get(x)+"\\n";
                         }
+                        codeint.guardaAArchivo(tempo+"");
                     }
                 }
                 else{
@@ -175,7 +180,7 @@ public class Operaciones {
 
     /*AQUI COMIENZAN LOS METODOS PARA ANALIZAR UNA OPERACION MATEMATICA*/
     //Metodo del algoritmo
-    public boolean algoritmoAceptacion(String obtenLinea, int linea, String Lect){
+    public boolean algoritmoAceptacion(String obtenLinea, int linea, String Lect) throws FileNotFoundException, IOException {
         romp = false;
         haztemp = false;
         pila = new HashMap<Integer, Integer>();
@@ -241,13 +246,14 @@ public class Operaciones {
     }
     
     //Metodo, verifica si es una operacion matematica numerica o con identificadores
-    public boolean operacMate(String obtenLinea, int linea, LinkedList llis, String Lectura){
+    public boolean operacMate(String obtenLinea, int linea, LinkedList llis, String Lectura) throws FileNotFoundException, IOException {
         haztemp = false;
         varia.setIdentificadores(llis);
         if(!obtenLinea.contains(supm[0]) && !obtenLinea.contains(supm[1]) && !obtenLinea.contains(supm[2]) && 
            !obtenLinea.contains(supm[3]) && !obtenLinea.contains(supm[4]) && !obtenLinea.contains(supm[5])){
         String cad = obtenLinea.replaceAll("\\s", "");
         String[] cadnew = cad.split("=");
+        variable = cadnew[0];
         String[] cadl = cadnew[1].split(";");
         aux = cadnew[0]+"";
         if(cadl[0].matches("[[\\(|\\)]*[\\d]*[*|\\-|+|/]{1}[\\d]*[\\(|\\)]]+")||
@@ -426,7 +432,7 @@ public class Operaciones {
     
     /*AQUI INICIA METODOS PARA REALIZAR UNA OPERACION LOGICA*/
 //Metodo del algoritmo
-    public boolean algoritmoAceptacionlogica(String obtenLinea, int linea, String Lect){
+    public boolean algoritmoAceptacionlogica(String obtenLinea, int linea, String Lect) throws FileNotFoundException, IOException {
         romp = false;
         pila = new HashMap<Integer, Integer>();
         x = 0;
@@ -486,7 +492,7 @@ public class Operaciones {
     }
     
     //Metodo, verifica si es una operacion logica numerica o con identificadores
-    public boolean operacLogic(String obtenLinea, int linea, String palres, LinkedList llist, String Lectura){
+    public boolean operacLogic(String obtenLinea, int linea, String palres, LinkedList llist, String Lectura) throws FileNotFoundException, IOException {
         this.llist = llist;
         varia.setIdentificadores(llist);
         String separa[] = obtenLinea.split("\\("), valor = "";

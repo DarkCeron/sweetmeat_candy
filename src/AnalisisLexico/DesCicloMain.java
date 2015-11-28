@@ -10,6 +10,8 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 import com.sun.org.apache.xalan.internal.lib.ExsltStrings;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -25,7 +27,7 @@ public class DesCicloMain {
     Scanner var = new Scanner(System.in);
     String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate", "paletita", "Postre"};  
     
-        public boolean EvaluaBloques(String obtenLinea, int linea, LinkedList lli){
+        public boolean EvaluaBloques(String obtenLinea, int linea, LinkedList lli)throws FileNotFoundException, IOException{
         this.llist = lli;
         if(Desicion(obtenLinea, linea)){
             bandera  = true;
@@ -52,7 +54,7 @@ public class DesCicloMain {
         return bandera;
     }
     
-    public boolean Desicion(String obtenLinea, int linea){
+    public boolean Desicion(String obtenLinea, int linea)throws FileNotFoundException, IOException{
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[0])){
         if(ope.operacLogic(obtenLinea, linea, supm[0], llist, "N")){
@@ -69,7 +71,7 @@ public class DesCicloMain {
         return bandera;
     }
     
-    public boolean Main(String obtenLinea, int linea){
+    public boolean Main(String obtenLinea, int linea)throws FileNotFoundException, IOException{
         
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[3])){
@@ -87,7 +89,7 @@ public class DesCicloMain {
         return bandera;
     }
     
-    public boolean DesisionSino(String obtenLinea, int linea){
+    public boolean DesisionSino(String obtenLinea, int linea)throws FileNotFoundException, IOException{
         
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[1])){
@@ -105,7 +107,7 @@ public class DesCicloMain {
         return bandera;
     }
     
-    public boolean Impresion(String obtenLinea, int linea){
+    public boolean Impresion(String obtenLinea, int linea)throws FileNotFoundException, IOException{
         
        String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[2])){
@@ -123,7 +125,7 @@ public class DesCicloMain {
         return bandera;
     }
     
-    public boolean Ciclo(String obtenLinea, int linea){
+    public boolean Ciclo(String obtenLinea, int linea)throws FileNotFoundException, IOException{
         
         String aux[] = obtenLinea.split("\\(");
         if(aux[0].equals(supm[4])){

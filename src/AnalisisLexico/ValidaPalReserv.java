@@ -24,7 +24,7 @@ public class ValidaPalReserv {
     public Variables var = new Variables();
     ValidaIDIgualacion vIDI = new ValidaIDIgualacion();
     Operaciones operac = new Operaciones();
-    public boolean ValidaPalabra(String obtenLinea, int linea){
+    public boolean ValidaPalabra(String obtenLinea, int linea)throws FileNotFoundException, IOException{
                 String varAConca[]  = obtenLinea.split(" ");
                 if(ValSiEsPalReserv(varAConca[0])){
                     identificador = Concatenaciones(varAConca);
