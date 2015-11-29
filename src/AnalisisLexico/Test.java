@@ -33,9 +33,9 @@ public class Test {
         analizador_v1 av1 = new analizador_v1();
         av1.setName(name);
         /*Direcciones URL para Windows*/
-        av1.setArchivo("C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\Programa.Candy");
-        String direccion1 = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\ho.Candy";
-        String direccion2 = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\CandyReservID.Candy.txt";
+        av1.setArchivo("C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\Programa.Candy");
+        String direccion1 = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\ho.Candy";
+        String direccion2 = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\CandyReservID.Candy.txt";
         /*Direcciones URL para Windows*/
         
         /*Direcciones URL para Ubuntu*/

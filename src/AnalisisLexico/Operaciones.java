@@ -21,7 +21,7 @@ import java.util.Map;
 public class Operaciones {
     private String[] resultados = new String[]{"","","","","","","","","",""};
     public int c = 0, temporalNo = 1, borraValores = 0, posValor, auxPosValor;
-    public boolean aceptacion = false, romp = false, divE = false, haztemp = false;
+    public boolean aceptacion = false, romp = false, divE = false, haztemp = false, retorna_operacion = false;
     public String cadena = "", ID = "", desp = "", aux, valorIgual = "", tempo = "", variable;
     public int x = 0;
     public Map<Integer, Integer> pila = new HashMap<Integer, Integer>();
@@ -130,7 +130,8 @@ public class Operaciones {
                             System.out.println(temporales.get(x));
                             tempo = (String)temporales.get(x)+"\\n";
                         }
-                        codeint.guardaAArchivo(tempo+"");
+                        
+                        retorna_operacion = true;
                     }
                 }
                 else{
@@ -237,8 +238,7 @@ public class Operaciones {
         for (int limpia = 1; limpia < resultados.length; limpia++) {
             resultados[limpia] = "";
         }
-        temporalNo = 1;
-        temporales.clear();
+        espejoLista.clear();
         pila.clear();
         pilaValor.clear();
         haztemp = false;
@@ -427,6 +427,9 @@ public class Operaciones {
         espejoLista.remove(espejoLista.size()-1);
         espejoLista.remove(espejoLista.size()-1);
         espejoLista.put(espejoLista.size()-1, aux);
+    }
+    public LinkedList ObtenTemporales(){
+        return this.temporales;
     }
     /*AQUI TERMINAN LOS METODOS PARA ANALIZAR UNA OPERACION MATEMATICA*/
     

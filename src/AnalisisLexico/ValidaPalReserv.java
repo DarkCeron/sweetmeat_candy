@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
  *
@@ -20,6 +21,7 @@ public class ValidaPalReserv {
     private int id;
     public String vaciatabla, identificador,varAConcat,TablaVaciandoVT, TablaVaciandoID, separParen[],separIgual[];
     public boolean noEncontrado = false;
+    public LinkedList temporal = new LinkedList();
     Test t = new Test();
     public Variables var = new Variables();
     ValidaIDIgualacion vIDI = new ValidaIDIgualacion();
@@ -62,7 +64,8 @@ public class ValidaPalReserv {
                 }
                 else if((!obtenLinea.matches("[\\s]+")|| !obtenLinea.equals("")) && obtenLinea.contains("=")){
                     if(!obtenLinea.contains("vainilla") && !obtenLinea.contains("frutsi") && operac.operacMate(obtenLinea, linea, var.llist, "N")){
-                    noEncontrado = true;
+                        temporal = operac.temporales;
+                        noEncontrado = true;
                     }
                     else{
                         String []val = vIDI.separaTodo(obtenLinea);

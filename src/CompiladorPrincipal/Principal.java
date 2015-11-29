@@ -20,6 +20,9 @@ import java.util.*;
  */
 public class Principal {
     ValidaPalReserv valpalreserv = new ValidaPalReserv();
+    public CandyProgram canprog = new CandyProgram();
+    public LinkedList lineasProg = new LinkedList();
+    public LinkedList temporales = new LinkedList();
     private String lineaAuxiliar, vis;
     private int linea = 1;
     public static LinkedList llis = new LinkedList();
@@ -50,6 +53,9 @@ public class Principal {
                 }
                 linea++;
             }
+            temporales = valpalreserv.temporal;
+            lineasProg = canprog.obtieneDatosArchivo("Programa");
+            canprog.guardaDatos("Programa","Programa2.0", lineasProg, temporales);
             if(!llaveAb.isEmpty()){
                 System.err.println("Error en la linea:"+llaveAb.get(llaveAb.size()-1)+". No se ah serrado una llave");
             }

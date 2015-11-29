@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -20,10 +21,11 @@ import java.util.Scanner;
  * @author ceron
  */
 public class DesCicloMain {
-    public boolean bandera = true;
+    public boolean bandera = true, banMate = false;
     private Variables varia;
     Operaciones ope = new Operaciones();
-    LinkedList llist;
+    LinkedList llist = new LinkedList();
+    public LinkedList temporal = new LinkedList();
     Scanner var = new Scanner(System.in);
     String supm []={"Pastelito","MedioPastelito","Paleta.Payaso", "Dulce de chocolate", "paletita", "Postre"};  
     
@@ -103,7 +105,6 @@ public class DesCicloMain {
         else{
             bandera = false;
         }
-        
         return bandera;
     }
     
@@ -168,7 +169,6 @@ public class DesCicloMain {
         else{
             bandera = false;
         }
-        
         return bandera; 
     }
     
@@ -186,5 +186,4 @@ public class DesCicloMain {
         ll = this.llist;
         return ll;
     }
-
 }
