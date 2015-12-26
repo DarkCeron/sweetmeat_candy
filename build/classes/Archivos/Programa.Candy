@@ -1,7 +1,9 @@
 Bubulubu bu;
 Bubulubu hi;
 Bubulubu holi;
+Bubulubu otra;
 Postre(bu);
 hi = 13 * 10 + bu / 2 +30;
 Postre(du);
 holi = 10 * 5 + bu;
+otra = 250 + 5 * 100;

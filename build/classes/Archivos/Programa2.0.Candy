@@ -1,6 +1,7 @@
 Bubulubu bu;
 Bubulubu hi;
 Bubulubu holi;
+Bubulubu otra;
 Postre(bu);
 T1 = 13 * 10
 T2 = bu / 2
@@ -12,3 +13,4 @@ hi = T4
 T5 = 10 * 5
 T6 =  T5 + bu
 holi = T6
+otra = 250 + 5 * 100;
