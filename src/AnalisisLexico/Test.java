@@ -23,6 +23,8 @@ public class Test {
     private static int tope = 0;
     private static String var[];
     private static LinkedList llist;
+    private static final String url = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\";
+    //Cambiar direcciones en: Test, analizador_v1, codigo_intermedio y CandyProgram
 //comentario
     //otro comentario
     
@@ -32,16 +34,9 @@ public class Test {
         analizador_v1 av1 = new analizador_v1();
         av1.setName(name);
         /*Direcciones URL para Windows*/
-        av1.setArchivo("C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\Programa.Candy");
-        String direccion1 = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\ho.Candy";
-        String direccion2 = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\CandyReservID.Candy.txt";
-        /*Direcciones URL para Windows*/
-        
-        /*Direcciones URL para Ubuntu*/
-//        av1.setArchivo("/home/ceron/Documentos/sweetmeat_candy/src/Archivos/Programa.Candy");
-//        String direccion1 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/ho.Candy";
-//        String direccion2 = "/home/ceron/Documentos/sweetmeat_candy/src/Archivos/CandyReservID.Candy.txt";
-        /*Direcciones URL para Ubuntu*/
+        av1.setArchivo(url+"Programa.Candy");
+        String direccion1 = url+"ho.Candy";
+        String direccion2 = url+"CandyReservID.Candy.txt";
         prin.ObtieneLineas(direccion1, direccion2);
         Variables var = new Variables();
         ImpTabSimbolos();

@@ -27,7 +27,7 @@ public class CandyProgram {
     BufferedReader scan = new BufferedReader(new InputStreamReader(System.in));
     boolean ban = false;
     String auxiliar;
-    String URL = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\";
+    String URL = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\";
     private static boolean bandera = false;
     /*Metodo que crea el archivo de texto vacio*/
     public void CreaArchivo(String nombre) throws IOException, InterruptedException {
@@ -102,7 +102,7 @@ public class CandyProgram {
               System.out.print(". ");
               wait(200);
               if((i+1) == 4){
-                  System.out.println("Documento escrito satisfactoriamente...");
+                  System.out.println("\nDocumento escrito satisfactoriamente...");
               }
             }
             scan.close();

@@ -152,7 +152,9 @@ public class Operaciones {
             
             c = pila.size()-1;
         }while(salR);
+        //Verifica si es numero o ID y que sea distinto a "(" o ")"
         if(!signo.equals("(") && !signo.equals(")")){
+            //Verifica que sea igual a un ID y distinto a una palabra reservada booleana
             if(signo.matches("[A-Za-z]+") && !signo.matches("vainilla") && !signo.matches("frutsi")){
                 ID = signo;
                 valorIgual = ID;
@@ -171,6 +173,7 @@ public class Operaciones {
                 }
                 ID = "";
             }
+            //Si es digito lo agrega al EspejoLista
             else{
             espejoLista.put(espejoLista.size(), signo);
             pilaValor.put(pilaValor.size(), signo);
@@ -310,6 +313,7 @@ public class Operaciones {
         return aceptacion;
     }
     
+    //Metodo realiza la operacion y agrega temporales a espejoLista
     public void RealizaOperacion(){
         Integer auxiliar = 0;
         
@@ -379,6 +383,7 @@ public class Operaciones {
         }
     }
     
+    //Metodo verifica los temporales, para guardar la operacion del temporal
         public void verificacionTemporales(String valor1, String signo, String valor2){
         int tem1 = 0, tem2 = 0;
         boolean ban1 = false, ban2 = false;
@@ -417,17 +422,20 @@ public class Operaciones {
             }
         }
     }
-        
+     
+    //Metodo elimina y agrega valor para operacion    
     public void elimYAgregaValor(String aux){
         pilaValor.remove(pilaValor.size()-1);
         pilaValor.remove(pilaValor.size()-1);
         pilaValor.put(pilaValor.size()-1, aux);
     }
+    //Metodo elimina y agrega valor para temporal
     public void elimYAgregaValorEspejo(String aux){
         espejoLista.remove(espejoLista.size()-1);
         espejoLista.remove(espejoLista.size()-1);
         espejoLista.put(espejoLista.size()-1, aux);
     }
+    //Obtiene el temporal del linkedList de esta clase
     public LinkedList ObtenTemporales(){
         return this.temporales;
     }
