@@ -84,14 +84,15 @@ public class CandyProgram {
                 for (int pos2 = 0; pos2 < temporales.size(); pos2++) {
                     if(regresaValDePosicion(temporales, 0, pos2).equals(regresaValDePosicion(lineasPrograma, 0, pos))){
                         for (int escLinea = tope; escLinea < pos2+1; escLinea++) {
-                            print_line.write((String)temporales.get(escLinea));
-                            print_line.append("\r\n");
+                            print_line.write((String)temporales.get(escLinea)+"\r\n");
+                           // print_line.append("\r\n");
                         }
-                        tope = pos2;
-                        if(pos < lineasPrograma.size()-1)pos++;
+                        tope = pos2+1;
+                        if(pos < lineasPrograma.size()-1)  pos++;
                         break;
                     }
                 }
+                //tope ++;
                 if(pos < lineasPrograma.size()){
                 print_line.write((String)lineasPrograma.get(pos));
                 print_line.append("\r\n");

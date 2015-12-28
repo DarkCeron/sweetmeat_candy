@@ -29,7 +29,9 @@ public class Principal {
     Variables var = new Variables();
     ValidaIDIgualacion valiga = new ValidaIDIgualacion();
     DesCicloMain desc = new DesCicloMain();
+    Assembly as = new Assembly();
     Map <Integer, Integer> llaveAb = new HashMap<Integer, Integer>();
+    private static final String url = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\";
     public void ObtieneLineas(String obtenLinea, String direccion2){
         try {
             
@@ -56,6 +58,8 @@ public class Principal {
             temporales = valpalreserv.temporal;
             lineasProg = canprog.obtieneDatosArchivo("Programa");
             canprog.guardaDatos("Programa","Programa2.0", lineasProg, temporales);
+            as.leeListaProgram(as.getProgram(url+"Programa2.0"));
+            as.imprimeDatosAArchivo("operaciones");
             if(!llaveAb.isEmpty()){
                 System.err.println("Error en la linea:"+llaveAb.get(llaveAb.size()-1)+". No se ah serrado una llave");
             }

@@ -126,10 +126,10 @@ public class Operaciones {
                     if(divE == false){
                         varia.ModificaValIdentificador(aux, pilaValor.get(0), LectORNoLect);
                        temporales.add(codeint.hazTemporal(espejoLista.get(espejoLista.size()-1), signo, variable, temporalNo, temporales, 5, 0, 0));
-                        for (int x = 0; x < temporales.size() ;x++) {
+                        /*for (int x = 0; x < temporales.size() ;x++) {
                             System.out.println(temporales.get(x));
                             tempo = (String)temporales.get(x)+"\\n";
-                        }
+                        }*/
                         
                         retorna_operacion = true;
                     }
