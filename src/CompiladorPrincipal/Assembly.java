@@ -29,6 +29,9 @@ public class Assembly {
     private String []    operacion = new String[10];
     private String []    valor2 = new String[10];
     private String []    impresiones = new String[10];
+    private String []    lect = new String[10];
+    private LinkedList tempo = new LinkedList();
+    private LinkedList resul = new LinkedList();
     /*Metodo obtiene todas las lineas del metodo y las guarda en un hashMap para regresar lo leido del archivo*/
     public LinkedList getProgram(String URL){
         String auxiliar;
@@ -64,17 +67,21 @@ public class Assembly {
             }
             else if(programaNDec[0].matches("[T][0-9]+")){
                 contador_temp++;
+                tempo.add(programaNDec[0]);
             }
             else if(programaDec.matches("[a-zA-Z0-9]+[ ][=][ ][T][0-9]+")){
                 contador_res++;
-            }
-            else if(programaDec.matches(var[1]+"[\\(][a-zA-Z0-9]+[\\)];")){
-                contador_lect++;
+                resul.add(programaNDec[0]);
             }
             else if(programaimp[0].equals("Paleta.payaso")){
                 String[] imp = programaimp[1].split("\\)");
                 impresiones[contador_imp] = imp[0];
                 contador_imp++;
+            }
+            else if(programaimp[0].equals("Postre")){
+                String []lect = programaimp[1].split("\\)");
+                this.lect[contador_lect] = lect[0];
+                contador_lect++;
             }
         }
         System.out.println("Contador de imp:"+contador_imp+"  "+"Contador de lec:"+contador_lect+"  "+"Contador de res:"+contador_res+"  "+"Contador de temp:"+contador_temp+"  "
@@ -98,11 +105,26 @@ public class Assembly {
           BufferedWriter fn_write = new BufferedWriter(f_writ);
           PrintWriter print_line = new PrintWriter(f_writ);
             /*Aqui codigo para escritura*/
+            for(int oper = 0; oper < 22; oper++){
+               if(oper < 5)print_line.write(Codigo.suma[oper]+"\r\n"); 
+               else if(oper < 10)print_line.write(Codigo.resta[oper-5]+"\r\n"); 
+               else if(oper < 15)print_line.write(Codigo.multiplicacion[oper-10]+"\r\n"); 
+               else print_line.write(Codigo.division[oper-15]+"\r\n"); 
+            }
             print_line.write("pila segment para stack 'stack'\r\n");
             print_line.write("pila ends\r\n");
             print_line.write("datos segment para public 'data'\r\n");
             for(int cont = 0; cont < contador_imp;cont++){
                 print_line.write("imp"+(cont+1)+"     db      \""+impresiones[cont].replaceAll("\"", "")+"$\"\r\n");
+            }
+            for(int contV = 0; contV < contador_temp; contV++){
+                print_line.write("T"+(contV+1)+"     dw     6,?,6 dup(?)\r\n");
+            }
+            for(int contR = 0; contR < contador_res; contR++){
+                print_line.write(resul.get(contR)+"   dw    ?\r\n");
+            }
+            for(int contL = 0; contL < contador_lect; contL++){
+                print_line.write(lect[contL]+"   dw    ?\r\n");
             }
             print_line.write("datos ends\r\n");
             print_line.write("extra segment para public 'code'\r\n");
@@ -118,8 +140,11 @@ public class Assembly {
             print_line.write("              mov     ds, ax\r\n");
             print_line.write("              mov     ax, datos\r\n");
             print_line.write("              mov     es, ax\r\n\r\n");
+            /*Codigo importante xD*/
             
             
+            
+            /*Fin*/
             print_line.write("ret\r\n");
             print_line.write("      principal endp\r\n");
             print_line.write("codigo ends\r\n");
