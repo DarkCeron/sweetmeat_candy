@@ -24,7 +24,7 @@ public class Assembly {
     String var[] = {"Bubulubu", "Postre"};
     BufferedReader scan = new BufferedReader(new InputStreamReader(System.in));
     private int contador_imp, contador_lect, contador_temp, contador_var, contador_res;
-    String URL = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\";
+    String URL = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\";
     private String []    valor1 = new String[10];
     private String []    operacion = new String[10];
     private String []    valor2 = new String[10];
@@ -105,11 +105,15 @@ public class Assembly {
           BufferedWriter fn_write = new BufferedWriter(f_writ);
           PrintWriter print_line = new PrintWriter(f_writ);
             /*Aqui codigo para escritura*/
-            for(int oper = 0; oper < 22; oper++){
-               if(oper < 5)print_line.write(Codigo.suma[oper]+"\r\n"); 
-               else if(oper < 10)print_line.write(Codigo.resta[oper-5]+"\r\n"); 
-               else if(oper < 15)print_line.write(Codigo.multiplicacion[oper-10]+"\r\n"); 
-               else print_line.write(Codigo.division[oper-15]+"\r\n"); 
+            for(int impres = 0 ; impres < (Codigo.impresionCar.length + Codigo.impresion.length); impres++){
+                if(impres < Codigo.impresion.length)  print_line.write(Codigo.impresion[impres]+"\r\n");
+                else    print_line.write(Codigo.impresionCar[impres-Codigo.impresion.length]+"\r\n");
+            }
+            for(int oper = 0 ; oper < 22 ; oper++){
+               if(oper < 5)     print_line.write(Codigo.suma[oper]+"\r\n"); 
+               else if(oper < 10)    print_line.write(Codigo.resta[oper-5]+"\r\n"); 
+               else if(oper < 15)    print_line.write(Codigo.multiplicacion[oper-10]+"\r\n"); 
+               else      print_line.write(Codigo.division[oper-15]+"\r\n"); 
             }
             print_line.write("pila segment para stack 'stack'\r\n");
             print_line.write("pila ends\r\n");

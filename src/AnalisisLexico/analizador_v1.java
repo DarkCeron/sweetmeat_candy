@@ -39,7 +39,7 @@ public class analizador_v1 extends AllComparations{
         
         //Objeto para guardar el archivo
         /*Direccion URL para Windows*/
-        f_write = new File("C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\"+this.name+".Candy");
+        f_write = new File("C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\"+this.name+".Candy");
         /*FIN*/
         /*Direccion URL para Ubuntu*/
         //f_write = new File("/home/ceron/Documentos/sweetmeat_candy/src/Archivos/"+this.name+".Candy");

@@ -1,3 +1,19 @@
+imprime macro cadena
+lea dx, cadena
+mov ah, 0ah
+int 21h
+endm
+
+imprimeC macro resu
+local imp
+imp:
+mov dx, resu
+add dl, 30h
+mov ah, 2
+int 21h
+loop imp
+endm
+
 suma macro var1, var2, resu
 mov ax, var1
 add ax, var2
