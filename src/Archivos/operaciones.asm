@@ -22,6 +22,7 @@ mov numero, valorDAH
 endm
 
 leeT macro varAGuar
+local regresa, error, acpt
 lea dx, varAGuar
 mov ah, 0ah
 int 21h
@@ -121,16 +122,16 @@ codigo segment para public 'code'
 
 imprime imp1
 leeT bu
-digToHexbu
+digToHex bu
 imprime imp2
 leeT du
-digToHexdu
-multi 10,13, T1
-divic bu,2, T2
-suma T1,T2, T3
-suma T3,30, T4
-multi 5,10, T5
-suma T5,bu, T6
+digToHex du
+multi 10, 13, T1
+divic bu, 2, T2
+suma T1, T2, T3
+suma T3, 30, T4
+multi 5, 10, T5
+suma T5, bu, T6
 ret
       principal endp
 codigo ends

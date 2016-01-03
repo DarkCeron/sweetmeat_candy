@@ -42,10 +42,10 @@ endm
                                                        "imprime digito", "acpt:", "endm\r\n"};
     
     public static final String[] digAHex = new String[]{"digToHex macro numero", "local salto, conver", "mov cx, 0", "mov cl, numero[1]", "dec cl", "mov si, 0", "mov ax, 0",
-                                                        "cmp cx, 0", "je salto", "conver:", "mov bl, numero[si+2]", "add ax, bx", "mul di", "inc si", "loop conver", "cmp cx, 0",
+                                                        "cmp cx, 0", "je salto", "conver:", "mov bl, numero[si+2]", "add ax, bx", "mul dig", "inc si", "loop conver", "cmp cx, 0",
                                                         "salto:", "mov bl, numero[si+2]", "add ax, bx", "mov valorDAH, ax", "mov numero, valorDAH", "endm\r\n"};
     
-    public static final String[] leerNum = new String[]{"leeT macro varAGuar", "lea dx, varAGuar", "mov ah, 0ah", "int 21h"};
+    public static final String[] leerNum = new String[]{"leeT macro varAGuar", "local regresa, error, acpt", "lea dx, varAGuar", "mov ah, 0ah", "int 21h"};
     
     public static final String[] Ascii = new String[]{"hexToDig macro"};
     

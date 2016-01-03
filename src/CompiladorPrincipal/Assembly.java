@@ -134,8 +134,8 @@ public class Assembly {
             for(int cont = 0; cont < contador_imp;cont++){
                 print_line.write("imp"+(cont+1)+"     db      \""+impresiones[cont].replaceAll("\"", "")+"\",10,13, \"$\"\r\n");
             }
-            print_line.write("limite    db     6,5,5,3,5\r\n");
-            print_line.write("di    dw     0ah\r\n");
+            print_line.write("lim    db     6,5,5,3,5\r\n");
+            print_line.write("dig    dw     0ah\r\n");
             print_line.write("valorDAH    dw     ?\r\n");
             for(int contV = 0; contV < contador_temp; contV++){
                 print_line.write("T"+(contV+1)+"     dw     6,?,6 dup(?)\r\n");
