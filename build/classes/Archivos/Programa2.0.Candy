@@ -6,12 +6,12 @@ Paleta.payaso("Dame valor");
 Postre(bu);
 T1 = 13 * 10
 T2 = bu / 2
-T3 =  T1 + T2
-T4 =  T3 + 30
+T3 = T1 + T2
+T4 = T3 + 30
 hi = T4
 Paleta.payaso("Dame valor 2");
 Postre(du);
 T5 = 10 * 5
-T6 =  T5 + bu
+T6 = T5 + bu
 holi = T6
 otra = 250 + 5 * 100;

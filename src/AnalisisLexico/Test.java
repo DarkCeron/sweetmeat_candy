@@ -23,7 +23,7 @@ public class Test {
     private static int tope = 0;
     private static String var[];
     private static LinkedList llist;
-    private static final String url = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\";
+    private static final String url = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\";
     //Cambiar direcciones en: Test, Principal, analizador_v1, Assembly, codigo_intermedio y CandyProgram
 //comentario
     //otro comentario

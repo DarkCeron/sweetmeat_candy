@@ -21,15 +21,18 @@ import java.util.LinkedList;
  * @author Cesar
  */
 public class Assembly {
+    boolean valida = false;
+    int extension = 10;
     String var[] = {"Bubulubu", "Postre"};
     BufferedReader scan = new BufferedReader(new InputStreamReader(System.in));
     private int contador_imp, contador_lect, contador_temp, contador_var, contador_res;
-    String URL = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\";
-    private String []    valor1 = new String[10];
-    private String []    operacion = new String[10];
-    private String []    valor2 = new String[10];
-    private String []    impresiones = new String[10];
-    private String []    lect = new String[10];
+    String URL = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\";
+    private String []    valor1 = new String[extension];
+    private String []    operacion = new String[extension];
+    private String []    valor2 = new String[extension];
+    private String []    impresiones = new String[extension];
+    private String []    lect = new String[extension];
+    private String []    TemRes = new String[extension];
     private LinkedList tempo = new LinkedList();
     private LinkedList resul = new LinkedList();
     /*Metodo obtiene todas las lineas del metodo y las guarda en un hashMap para regresar lo leido del archivo*/
@@ -66,12 +69,13 @@ public class Assembly {
                 contador_var++;
             }
             else if(programaNDec[0].matches("[T][0-9]+")){
+                tempo.add(programa.get(pos));
                 contador_temp++;
-                tempo.add(programaNDec[0]);
             }
             else if(programaDec.matches("[a-zA-Z0-9]+[ ][=][ ][T][0-9]+")){
-                contador_res++;
+                TemRes[contador_res] = programaNDec[2];
                 resul.add(programaNDec[0]);
+                contador_res++;
             }
             else if(programaimp[0].equals("Paleta.payaso")){
                 String[] imp = programaimp[1].split("\\)");
@@ -105,6 +109,13 @@ public class Assembly {
           BufferedWriter fn_write = new BufferedWriter(f_writ);
           PrintWriter print_line = new PrintWriter(f_writ);
             /*Aqui codigo para escritura*/
+            for(int contDTH = 0; contDTH < Codigo.digAHex.length;contDTH++){
+                print_line.write(Codigo.digAHex[contDTH]+"\r\n");
+            }
+            for(int leeD = 0; leeD < (Codigo.leerNum.length+Codigo.valida.length);leeD++){
+                if(leeD < Codigo.leerNum.length)print_line.write(Codigo.leerNum[leeD]+"\r\n");
+                else print_line.write(Codigo.valida[leeD-Codigo.leerNum.length]+"\r\n");
+            }
             for(int impres = 0 ; impres < (Codigo.impresionCar.length + Codigo.impresion.length); impres++){
                 if(impres < Codigo.impresion.length)  print_line.write(Codigo.impresion[impres]+"\r\n");
                 else    print_line.write(Codigo.impresionCar[impres-Codigo.impresion.length]+"\r\n");
@@ -118,9 +129,14 @@ public class Assembly {
             print_line.write("pila segment para stack 'stack'\r\n");
             print_line.write("pila ends\r\n");
             print_line.write("datos segment para public 'data'\r\n");
+            print_line.write("digito     db     \"Solo se aceptan numeros\",10,13, \"$\"\r\n");
+            print_line.write("limite     db     \"Es mayor a 65536\",10,13, \"$\"\r\n");
             for(int cont = 0; cont < contador_imp;cont++){
-                print_line.write("imp"+(cont+1)+"     db      \""+impresiones[cont].replaceAll("\"", "")+"$\"\r\n");
+                print_line.write("imp"+(cont+1)+"     db      \""+impresiones[cont].replaceAll("\"", "")+"\",10,13, \"$\"\r\n");
             }
+            print_line.write("limite    db     6,5,5,3,5\r\n");
+            print_line.write("di    dw     0ah\r\n");
+            print_line.write("valorDAH    dw     ?\r\n");
             for(int contV = 0; contV < contador_temp; contV++){
                 print_line.write("T"+(contV+1)+"     dw     6,?,6 dup(?)\r\n");
             }
@@ -146,8 +162,55 @@ public class Assembly {
             print_line.write("              mov     es, ax\r\n\r\n");
             /*Codigo importante xD*/
             
+            for(int cont = 0; cont < contador_lect;cont++){
+                print_line.write("imprime imp"+(cont+1)+"\r\n");
+                print_line.write("leeT "+lect[cont]+"\r\n");
+                print_line.write("digToHex "+lect[cont]+"\r\n");
+            }
             
-            
+            int cont = 0;
+            String [] signo = new String[5];
+            do{ 
+                if(valida != true && cont < contador_temp){
+                    signo = ((String) tempo.get(cont)).split(" ");
+                    System.out.println(tempo.get(cont));
+                }
+                else signo[3] = "x";
+                switch(signo[3]){
+                    case "+":{
+                        print_line.write("suma "+signo[2]+", "+signo[4]+", "+signo[0]+"\r\n");
+                        valida = true;
+                        break;
+                    }
+                    case "-":{
+                        print_line.write("resta "+signo[2]+", "+signo[4]+", "+signo[0]+"\r\n");
+                        valida = true;
+                        break;
+                    }
+                    case "*":{
+                        print_line.write("multi "+signo[4]+", "+signo[2]+", "+signo[0]+"\r\n");
+                        valida = true;
+                        break;
+                    }
+                    case "/":{
+                        print_line.write("divic "+signo[2]+", "+signo[4]+", "+signo[0]+"\r\n");
+                        valida = true;
+                        break;
+                    }
+                    case "x":{
+                        /*for(int contVa = 0; contVa < Codigo.valida.length;contVa++){
+                        print_line.write(Codigo.valida[contVa]+"\r\n");
+                        }*/
+                        valida = false;
+                        cont++;
+                        break;
+                    }
+                }
+                //cont++;
+            }while(cont != contador_temp);
+            for(int c = 0; c < contador_res;c++){
+                System.out.println(TemRes[c]);
+            }
             /*Fin*/
             print_line.write("ret\r\n");
             print_line.write("      principal endp\r\n");

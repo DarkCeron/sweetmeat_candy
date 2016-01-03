@@ -31,7 +31,7 @@ public class Principal {
     DesCicloMain desc = new DesCicloMain();
     Assembly as = new Assembly();
     Map <Integer, Integer> llaveAb = new HashMap<Integer, Integer>();
-    private static final String url = "C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\";
+    private static final String url = "C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\";
     public void ObtieneLineas(String obtenLinea, String direccion2){
         try {
             

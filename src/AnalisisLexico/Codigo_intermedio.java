@@ -31,7 +31,7 @@ public class Codigo_intermedio {
                 break;
             }
             case 2:{
-                temporal = "T"+NoDeTemporal+" = "+" T"+temp1+" "+signo+" "+Valor2;
+                temporal = "T"+NoDeTemporal+" ="+" T"+temp1+" "+signo+" "+Valor2;
                 break;
             }
             case 3:{
@@ -39,7 +39,7 @@ public class Codigo_intermedio {
                 break;
             }
             case 4:{
-                temporal = "T"+NoDeTemporal+" = "+" T"+temp1+" "+signo+" T"+temp2;
+                temporal = "T"+NoDeTemporal+" = "+"T"+temp1+" "+signo+" T"+temp2;
                 break;
             }
             case 5:{
@@ -52,7 +52,7 @@ public class Codigo_intermedio {
     public void guardaAArchivo(String aux) throws FileNotFoundException, IOException {
         FileReader file_nf = new FileReader("temporales");
         BufferedReader lect = new BufferedReader(file_nf);
-        f_write = new File("C:\\Users\\Cesar\\Documents\\sweetmeat_candy\\src\\Archivos\\temporales.txt");
+        f_write = new File("C:\\Users\\Ceron\\Documents\\sweetmeat_candy\\src\\Archivos\\temporales.txt");
         try{
         //Objetos para escribir en el nuevo documento
            FileWriter f_writ = new FileWriter(f_write);

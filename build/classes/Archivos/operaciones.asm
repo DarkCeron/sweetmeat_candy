@@ -1,3 +1,47 @@
+digToHex macro numero
+local salto, conver
+mov cx, 0
+mov cl, numero[1]
+dec cl
+mov si, 0
+mov ax, 0
+cmp cx, 0
+je salto
+conver:
+mov bl, numero[si+2]
+add ax, bx
+mul di
+inc si
+loop conver
+cmp cx, 0
+salto:
+mov bl, numero[si+2]
+add ax, bx
+mov valorDAH, ax
+mov numero, valorDAH
+endm
+
+leeT macro varAGuar
+lea dx, varAGuar
+mov ah, 0ah
+int 21h
+mov si, 2
+regresa:
+cmp[varAGuar+1],'0'
+jl error
+cmp[varAGuar+si],'9'
+jg error
+mov bl, 30h
+sub[varAGuar+si], 30h
+inc si
+cmp[varAGuar+si], 0dh
+jne regresa
+jmp acpt
+error:
+imprime digito
+acpt:
+endm
+
 imprime macro cadena
 lea dx, cadena
 mov ah, 0ah
@@ -43,8 +87,13 @@ endm
 pila segment para stack 'stack'
 pila ends
 datos segment para public 'data'
-imp1     db      "Dame valor$"
-imp2     db      "Dame valor 2$"
+digito     db     "Solo se aceptan numeros",10,13, "$"
+limite     db     "Es mayor a 65536",10,13, "$"
+imp1     db      "Dame valor",10,13, "$"
+imp2     db      "Dame valor 2",10,13, "$"
+limite    db     6,5,5,3,5
+di    dw     0ah
+valorDAH    dw     ?
 T1     dw     6,?,6 dup(?)
 T2     dw     6,?,6 dup(?)
 T3     dw     6,?,6 dup(?)
@@ -70,6 +119,18 @@ codigo segment para public 'code'
               mov     ax, datos
               mov     es, ax
 
+imprime imp1
+leeT bu
+digToHexbu
+imprime imp2
+leeT du
+digToHexdu
+multi 10,13, T1
+divic bu,2, T2
+suma T1,T2, T3
+suma T3,30, T4
+multi 5,10, T5
+suma T5,bu, T6
 ret
       principal endp
 codigo ends
