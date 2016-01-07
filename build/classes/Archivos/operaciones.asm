@@ -1,138 +1,203 @@
-digToHex macro numero
-local salto, conver
-mov cx, 0
-mov cl, numero[1]
-dec cl
-mov si, 0
-mov ax, 0
-cmp cx, 0
-je salto
-conver:
-mov bl, numero[si+2]
-add ax, bx
-mul di
-inc si
-loop conver
-cmp cx, 0
-salto:
-mov bl, numero[si+2]
-add ax, bx
-mov valorDAH, ax
-mov numero, valorDAH
-endm
+            imprimir MACRO MSJ;Define macro de impresion de cadenas
+                LEA DX,MSJ
+                MOV AH,9
+                INT 21H
+                lea dx,saltoeti
+                mov ah,9
+                int 21h
+            
+            ENDM
+            
+            imprimeid MACRO MSJ;Define macro impresion de id de cadenas
+                LOCAL divi1,imp1            
+                mov ax,MSJ
+                mov cx,0
+                mov dx,0
+                divi1:
+                    div diez
+                    push dx
+                    mov dx,0
+                    inc cx
+                    cmp ax,0
+                jne divi1
+                imp1:
+                    pop dx
+                    add dl,30h
+                    mov ah,2
+                    int 21h
+                loop imp1
+                imprimir saltoeti
+            ENDM
+            
+      
+            leenumero MACRO A,B;Define macro lectura de numeros
+                LOCAL val1,digParcial1,obvi1,limValida1,impNoValido1,jlimValido1,saleVal1,siValido1,conversion1,brinca1            
+                LEA dx,A
+                MOV AH, 0AH
+                INT 21H
+                MOV SI,2
+                val1:
+                cmp[A+si],'0'
+                jl digParcial1
+                cmp[A+si],'9'
+                jg digParcial1
+                mov bl,30h
+                sub [A+si],30h
+                inc si
+                cmp [A+si],0dh
+                jne val1
+                jmp obvi1
+                digParcial1:
+                jmp err     
+                obvi1:            
+                cmp A[1],5
+                jl jLimValido1
+                mov cx,5
+                mov si,0
+                mov bx,0
+                limValida1:
+                mov bl,lim[si]
+                mov bh,A[si+2]
+                cmp bh,bl
+                jg impNoValido1
+                jl siValido1
+                inc si
+                loop limValida1            
+                jmp saleVal1
+                impNoValido1:
+                jmp err
+                jlimValido1:
+                saleVal1:
+                siValido1:            
+                mov cx,0
+                mov cl,A[1]
+                dec cl  
+                mov si,0  
+                mov ax,0  
+                cmp cx,0  
+                je brinca1  
+                conversion1:  
+                mov bl,A[si+2]  
+                add ax,bx  
+                mul diez
+                inc si  
+                loop conversion1  
+                cmp cx,0              
+                brinca1:
+                mov bl,A[si+2]
+                add ax,bx
+                mov B,ax
+                imprimir saltoeti
+            ENDM
+            
+ 
+            leer MACRO A;Define macro lectura
+                LEA dx,A
+                MOV AH, 0AH
+                INT 21H
+            ENDM
+            
+        
+            
+                suma MACRO A,B;Define macro suma
+                    MOV AX, A
+                    MOV DX, B
+                    ADD AX, DX
+                ENDM  
+                                          
+            
+            
+                resta MACRO A,B;Define macro resta
+                    MOV AX, A
+                    MOV DX, B
+                    SUB AX, DX
+                ENDM 
+            
+            
+            
+                multi MACRO A,B;Define macro multiplicacion
+                    MOV AX, A
+                    MOV DX, B
+                    MUL DX
+                ENDM 
+            
+            
+            
+                divi MACRO A,B;Define macro division
+                    MOV AX, A
+                    CWD
+                    MOV BX, B
+                    DIV BX
+                ENDM 
+            
+            
+            
+            
+pila  SEGMENT PARA STACK 'STACK' 
+    db 64h dup(00h)
+pila  ENDS
 
-leeT macro varAGuar
-local regresa, error, acpt
-lea dx, varAGuar
-mov ah, 0ah
-int 21h
-mov si, 2
-regresa:
-cmp[varAGuar+1],'0'
-jl error
-cmp[varAGuar+si],'9'
-jg error
-mov bl, 30h
-sub[varAGuar+si], 30h
-inc si
-cmp[varAGuar+si], 0dh
-jne regresa
-jmp acpt
-error:
-imprime digito
-acpt:
-endm
-
-imprime macro cadena
-lea dx, cadena
-mov ah, 0ah
-int 21h
-endm
-
-imprimeC macro resu
-local imp
-imp:
-mov dx, resu
-add dl, 30h
-mov ah, 2
-int 21h
-loop imp
-endm
-
-suma macro var1, var2, resu
-mov ax, var1
-add ax, var2
-mov resu, ax
-endm
-
-resta macro var1, var2, resu
-mov ax, var1
-sub ax, var2
-mov resu, ax
-endm
-
-multi macro var1, var2, resu
-mov ax, var1
-mul var2
-mov resu, ax
-endm
-
-divic macro var1, var2, resu
-mov ax, var1
-cwd
-mov bx, var2
-div bx
-mov resu, ax
-endm
-
-pila segment para stack 'stack'
-pila ends
-datos segment para public 'data'
-digito     db     "Solo se aceptan numeros",10,13, "$"
-limite     db     "Es mayor a 65536",10,13, "$"
+datos SEGMENT PARA PUBLIC 'DATA' 
+    lim db 6,5,5,3,5
+    diez dw 0ah
+    ERROR db "ERROR... Ocurrio un error inesperado$"
+    lecdn db 6,?,6 dup(?)
+    saltoeti db 10,13,"$"
 imp1     db      "Dame valor",10,13, "$"
 imp2     db      "Dame valor 2",10,13, "$"
-limite    db     6,5,5,3,5
-di    dw     0ah
-valorDAH    dw     ?
-T1     dw     6,?,6 dup(?)
-T2     dw     6,?,6 dup(?)
-T3     dw     6,?,6 dup(?)
-T4     dw     6,?,6 dup(?)
-T5     dw     6,?,6 dup(?)
-T6     dw     6,?,6 dup(?)
+T1     dw     ?
+T2     dw     ?
+T3     dw     ?
+T4     dw     ?
+T5     dw     ?
+T6     dw     ?
+bu   dw    ?
 hi   dw    ?
 holi   dw    ?
-bu   dw    ?
-du   dw    ?
-datos ends
-extra segment para public 'code'
-extra ends
-codigo segment para public 'code'
-      public principal
-      assume cs:codigo, es:extra, ds:datos, ss:pila
-          principal proc far
-              push    ds
-              mov     ax, 0
-              push    ax
-              mov     ax, datos
-              mov     ds, ax
-              mov     ax, datos
-              mov     es, ax
+otra   dw    ?
+datos ENDS
 
-imprime imp1
-leeT bu
-digToHex bu
-imprime imp2
-leeT du
-digToHex du
-multi 10, 13, T1
-divic bu, 2, T2
-suma T1, T2, T3
-suma T3, 30, T4
-multi 5, 10, T5
-suma T5, bu, T6
-ret
-      principal endp
-codigo ends
-          end principal
+extra SEGMENT PARA PUBLIC 'DATA' 
+extra ENDS
+codigo SEGMENT PARA PUBLIC 'CODE'
+PUBLIC principal
+principal PROC FAR 
+ASSUME CS:codigo, DS:datos, SS:pila, ES:extra
+    PUSH DS
+    MOV AX,0
+    PUSH AX 
+    MOV AX, datos
+    MOV DS,AX 
+    MOV AX, extra
+    MOV ES,AX
+     imprimir imp1
+     leenumero lecdn,bu
+      multi 13, 10
+      MOV T1, AX
+      divi bu, 2
+      MOV T2, AX
+      suma T1, T2
+      MOV T3, AX
+      suma T3, 30
+      MOV T4, AX
+     MOV AX,  T4
+     MOV hi , AX
+     imprimeid hi 
+     imprimir imp2
+     leenumero lecdn,otra
+      multi 10, 5
+      MOV T5, AX
+      suma T5, bu
+      MOV T6, AX
+     MOV AX,  T6
+     MOV holi , AX
+     imprimeid holi 
+    jmp salir
+    err:
+    imprimir ERROR
+    salir:
+
+RET
+principal ENDP
+codigo ENDS
+END principal

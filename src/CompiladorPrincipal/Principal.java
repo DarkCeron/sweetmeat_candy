@@ -59,7 +59,7 @@ public class Principal {
             lineasProg = canprog.obtieneDatosArchivo("Programa");
             canprog.guardaDatos("Programa","Programa2.0", lineasProg, temporales);
             as.leeListaProgram(as.getProgram(url+"Programa2.0"));
-            as.imprimeDatosAArchivo("operaciones");
+            as.imprimeDatosAArchivo("operaciones", as.getMacros(url+"macros"), as.getProgram(url+"Programa2.0"));
             if(!llaveAb.isEmpty()){
                 System.err.println("Error en la linea:"+llaveAb.get(llaveAb.size()-1)+". No se ah serrado una llave");
             }

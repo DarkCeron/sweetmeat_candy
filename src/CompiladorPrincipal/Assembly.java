@@ -33,9 +33,10 @@ public class Assembly {
     private String []    impresiones = new String[extension];
     private String []    lect = new String[extension];
     private String []    TemRes = new String[extension];
+    private String []    bubulubu = new String[extension];
     private LinkedList tempo = new LinkedList();
     private LinkedList resul = new LinkedList();
-    /*Metodo obtiene todas las lineas del metodo y las guarda en un hashMap para regresar lo leido del archivo*/
+    /*Metodo obtiene todas las lineas del metodo y las guarda en un linkedlist para regresar lo leido del archivo*/
     public LinkedList getProgram(String URL){
         String auxiliar;
         LinkedList programa = new LinkedList();
@@ -57,6 +58,28 @@ public class Assembly {
     }
     /*Fin de metodo que obtiene lineas*/
     
+    /*Metodo obtiene todas las lineas del metodo y las guarda en un linkedlist para regresar lo leido del archivo*/
+    public LinkedList getMacros(String URL){
+        String auxiliar;
+        LinkedList macros = new LinkedList();
+        try{
+        FileReader file_nf = new FileReader(URL+".txt");
+            BufferedReader lect = new BufferedReader(file_nf);
+            while((auxiliar = lect.readLine()) != null){
+                macros.add(auxiliar);
+            }
+            
+        } 
+        catch(FileNotFoundException fnfe){
+            System.err.println("No se encuentra el archivo especificado, ERROR: "+fnfe.getMessage());
+        }
+        catch (IOException ex) {
+            System.err.println("Error en variables de entrada y salida, ERROR: "+ex.getMessage());
+        }
+        return macros;
+    }
+    /*Fin de metodo que obtiene lineas*/
+    
     /*Metodo lee el programa y hace un conteo para agregar variables al ensamblador*/
     public void leeListaProgram(LinkedList programa){
         String programaDec;
@@ -66,6 +89,8 @@ public class Assembly {
             String []programaNDec = programaDec.split(" ");
             String []programaimp = programaDec.split("\\(");
             if(programaNDec[0].equals(var[0])){
+                String tempo[] = programaNDec[1].split(";");
+                bubulubu[contador_var] = tempo[0];
                 contador_var++;
             }
             else if(programaNDec[0].matches("[T][0-9]+")){
@@ -94,7 +119,7 @@ public class Assembly {
     }
     /*Fin de metodo*/
     
-    public synchronized void imprimeDatosAArchivo(String archivo){
+    public synchronized void imprimeDatosAArchivo(String archivo, LinkedList macros, LinkedList programa){
         try{
           File file = new File(URL+archivo+".asm");
           System.out.print("\nCreando archivo");
@@ -108,114 +133,104 @@ public class Assembly {
           FileWriter f_writ = new FileWriter(file);
           BufferedWriter fn_write = new BufferedWriter(f_writ);
           PrintWriter print_line = new PrintWriter(f_writ);
-            /*Aqui codigo para escritura*/
-            for(int contDTH = 0; contDTH < Codigo.digAHex.length;contDTH++){
-                print_line.write(Codigo.digAHex[contDTH]+"\r\n");
+            for(int contL = 0; contL < macros.size(); contL++){
+                print_line.write(macros.get(contL)+"\r\n");
             }
-            for(int leeD = 0; leeD < (Codigo.leerNum.length+Codigo.valida.length);leeD++){
-                if(leeD < Codigo.leerNum.length)print_line.write(Codigo.leerNum[leeD]+"\r\n");
-                else print_line.write(Codigo.valida[leeD-Codigo.leerNum.length]+"\r\n");
-            }
-            for(int impres = 0 ; impres < (Codigo.impresionCar.length + Codigo.impresion.length); impres++){
-                if(impres < Codigo.impresion.length)  print_line.write(Codigo.impresion[impres]+"\r\n");
-                else    print_line.write(Codigo.impresionCar[impres-Codigo.impresion.length]+"\r\n");
-            }
-            for(int oper = 0 ; oper < 22 ; oper++){
-               if(oper < 5)     print_line.write(Codigo.suma[oper]+"\r\n"); 
-               else if(oper < 10)    print_line.write(Codigo.resta[oper-5]+"\r\n"); 
-               else if(oper < 15)    print_line.write(Codigo.multiplicacion[oper-10]+"\r\n"); 
-               else      print_line.write(Codigo.division[oper-15]+"\r\n"); 
-            }
-            print_line.write("pila segment para stack 'stack'\r\n");
-            print_line.write("pila ends\r\n");
-            print_line.write("datos segment para public 'data'\r\n");
-            print_line.write("digito     db     \"Solo se aceptan numeros\",10,13, \"$\"\r\n");
-            print_line.write("limite     db     \"Es mayor a 65536\",10,13, \"$\"\r\n");
+            print_line.println("pila  SEGMENT PARA STACK 'STACK' ");
+            print_line.println("    db 64h dup(00h)");
+            print_line.println("pila  ENDS");
+            print_line.println();
+            print_line.println("datos SEGMENT PARA PUBLIC 'DATA' ");            
+            print_line.println("    lim db 6,5,5,3,5");
+            print_line.println("    diez dw 0ah");
+            print_line.println("    ERROR db \"ERROR... Ocurrio un error inesperado$\"");            
+            print_line.println("    lecdn db 6,?,6 dup(?)");            
+            print_line.println("    saltoeti db 10,13,\"$\"");
             for(int cont = 0; cont < contador_imp;cont++){
                 print_line.write("imp"+(cont+1)+"     db      \""+impresiones[cont].replaceAll("\"", "")+"\",10,13, \"$\"\r\n");
             }
-            print_line.write("lim    db     6,5,5,3,5\r\n");
-            print_line.write("dig    dw     0ah\r\n");
-            print_line.write("valorDAH    dw     ?\r\n");
             for(int contV = 0; contV < contador_temp; contV++){
-                print_line.write("T"+(contV+1)+"     dw     6,?,6 dup(?)\r\n");
+                print_line.write("T"+(contV+1)+"     dw     ?\r\n");
             }
-            for(int contR = 0; contR < contador_res; contR++){
-                print_line.write(resul.get(contR)+"   dw    ?\r\n");
+            for(int contL = 0; contL < contador_var; contL++){
+                print_line.write(bubulubu[contL]+"   dw    ?\r\n");
             }
-            for(int contL = 0; contL < contador_lect; contL++){
-                print_line.write(lect[contL]+"   dw    ?\r\n");
-            }
-            print_line.write("datos ends\r\n");
-            print_line.write("extra segment para public 'code'\r\n");
-            print_line.write("extra ends\r\n");
-            print_line.write("codigo segment para public 'code'\r\n");
-            print_line.write("      public principal\r\n");
-            print_line.write("      assume cs:codigo, es:extra, ds:datos, ss:pila\r\n");
-            print_line.write("          principal proc far\r\n");
-            print_line.write("              push    ds\r\n");
-            print_line.write("              mov     ax, 0\r\n");
-            print_line.write("              push    ax\r\n");
-            print_line.write("              mov     ax, datos\r\n");
-            print_line.write("              mov     ds, ax\r\n");
-            print_line.write("              mov     ax, datos\r\n");
-            print_line.write("              mov     es, ax\r\n\r\n");
-            /*Codigo importante xD*/
+            print_line.println("datos ENDS");
+            print_line.println();
+            print_line.println("extra SEGMENT PARA PUBLIC 'DATA' ");
+            print_line.println("extra ENDS");
+            print_line.println("codigo SEGMENT PARA PUBLIC 'CODE'");
+            print_line.println("PUBLIC principal");
+            print_line.println("principal PROC FAR ");
+            print_line.println("ASSUME CS:codigo, DS:datos, SS:pila, ES:extra");
+            print_line.println("    PUSH DS");
+            print_line.println("    MOV AX,0");
+            print_line.println("    PUSH AX ");
+            print_line.println("    MOV AX, datos");
+            print_line.println("    MOV DS,AX ");
+            print_line.println("    MOV AX, extra");
+            print_line.println("    MOV ES,AX");  
             
-            for(int cont = 0; cont < contador_lect;cont++){
-                print_line.write("imprime imp"+(cont+1)+"\r\n");
-                print_line.write("leeT "+lect[cont]+"\r\n");
-                print_line.write("digToHex "+lect[cont]+"\r\n");
-            }
-            
-            int cont = 0;
-            String [] signo = new String[5];
-            do{ 
-                if(valida != true && cont < contador_temp){
-                    signo = ((String) tempo.get(cont)).split(" ");
-                    System.out.println(tempo.get(cont));
+            int num = 1;
+             for(int prog = 0 ; prog < programa.size() ; prog++){
+                if(prog < programa.size()-1){
+                 if(((String)programa.get(prog)).contains("Paleta.payaso")){
+                     print_line.write("     imprimir imp"+num+"\r\n");
+                     num++;
+                 }
+                 else if(((String)programa.get(prog)).contains("Postre")){
+                     String []te = ((String)programa.get(prog)).split("\\(");
+                     String []te1 = te[1].split("\\)");
+                     print_line.write("     leenumero lecdn,"+te1[0]+"\r\n");
+                 }
+                 else if(((String)programa.get(prog)).matches("[a-zA-Z0-9]+( )?=( )?[T][0-9]+")){
+                     String []te  = ((String)programa.get(prog)).split("=");
+                     print_line.write("     MOV AX, "+te[1]+"\r\n");
+                     print_line.write("     MOV "+te[0]+", AX\r\n");
+                     print_line.write("     imprimeid "+te[0]+"\r\n");
+                 }
+                 else{
+                     for(int car = 0 ; car < ((String)programa.get(prog)).length() ; car++){
+                         String []valores = ((String)programa.get(prog)).split(" ");
+                         switch(((String)programa.get(prog)).charAt(car)){
+                            case '+':{
+                                print_line.write("      suma "+valores[2]+", "+valores[4]+"\r\n");
+                                print_line.write("      MOV "+valores[0]+", AX\r\n");
+                                valida = true;
+                            break;
+                            }
+                            case '-':{
+                                print_line.write("      resta "+valores[2]+", "+valores[4]+"\r\n");
+                                print_line.write("      MOV "+valores[0]+", AX\r\n");
+                                valida = true;
+                            break;
+                            }
+                            case '*':{
+                                print_line.write("      multi "+valores[2]+", "+valores[4]+"\r\n");
+                                print_line.write("      MOV "+valores[0]+", AX\r\n");
+                                valida = true;
+                            break;
+                            }
+                            case '/':{
+                                print_line.write("      divi "+valores[2]+", "+valores[4]+"\r\n");
+                                print_line.write("      MOV "+valores[0]+", AX\r\n");
+                                valida = true;
+                            break;
+                            }
+                        }
+                    }
+                 }
                 }
-                else signo[3] = "x";
-                switch(signo[3]){
-                    case "+":{
-                        print_line.write("suma "+signo[2]+", "+signo[4]+", "+signo[0]+"\r\n");
-                        valida = true;
-                        break;
-                    }
-                    case "-":{
-                        print_line.write("resta "+signo[2]+", "+signo[4]+", "+signo[0]+"\r\n");
-                        valida = true;
-                        break;
-                    }
-                    case "*":{
-                        print_line.write("multi "+signo[4]+", "+signo[2]+", "+signo[0]+"\r\n");
-                        valida = true;
-                        break;
-                    }
-                    case "/":{
-                        print_line.write("divic "+signo[2]+", "+signo[4]+", "+signo[0]+"\r\n");
-                        valida = true;
-                        break;
-                    }
-                    case "x":{
-                        /*for(int contVa = 0; contVa < Codigo.valida.length;contVa++){
-                        print_line.write(Codigo.valida[contVa]+"\r\n");
-                        }*/
-                        valida = false;
-                        cont++;
-                        break;
-                    }
-                }
-                //cont++;
-            }while(cont != contador_temp);
-            for(int c = 0; c < contador_res;c++){
-                System.out.println(TemRes[c]);
-            }
+             }
             /*Fin*/
-            print_line.write("ret\r\n");
-            print_line.write("      principal endp\r\n");
-            print_line.write("codigo ends\r\n");
-            print_line.write("          end principal");
+            print_line.println("    jmp salir");
+            print_line.println("    err:");
+            print_line.println("    imprimir ERROR");
+            print_line.println("    salir:\r\n");
+            print_line.println("RET");
+            print_line.println("principal ENDP");
+            print_line.println("codigo ENDS");
+            print_line.println("END principal");
             //print_line.write("\r\n");
             //print_line.write("\r\n");
                             //print_line.write("Linea a imprimir\r\n");

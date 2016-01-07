@@ -6,6 +6,6 @@ Paleta.payaso("Dame valor");
 Postre(bu);
 hi = 13 * 10 + bu / 2 +30;
 Paleta.payaso("Dame valor 2");
-Postre(du);
+Postre(otra);
 holi = 10 * 5 + bu;
 otra = 250 + 5 * 100;
